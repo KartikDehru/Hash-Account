@@ -1,0 +1,30 @@
+[profile.default]
+src = "src"
+test = "test"
+out = "out"
+libs = ["lib"]
+solc_version = "0.8.37"
+# Same settings as Skale's proven XMSS bytecode (solc 0.8.37, via-IR, 200 runs).
+optimizer = true
+optimizer_runs = 200
+via_ir = true
+evm_version = "prague"
+offline = true
+ffi = true
+fs_permissions = [
+  { access = "read", path = "../reference/vectors" },
+  { access = "read", path = "./test/vectors" },
+  { access = "read", path = "./account" },
+  { access = "read-write", path = "../results" },
+]
+gas_limit = "18446744073709551615"
+
+[fuzz]
+runs = 10
+
+# 100 runs x 100 cases per run = 10,000 differential cases.
+[profile.diff.fuzz]
+runs = 100
+
+[lint]
+lint_on_build = false
