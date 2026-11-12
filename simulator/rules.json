@@ -1,0 +1,188 @@
+{
+ "_comment": "Every rule value used by scripts and the admission simulator. Each entry has a source and the date it was read. status: S = stated in source, I = inference, U = unverified.",
+ "FRAME_TX_TYPE": {
+  "value": 6,
+  "source": "EIP-8141 Constants",
+  "date": "2026-10-24",
+  "status": "S"
+ },
+ "FRAME_TX_INTRINSIC_COST": {
+  "value": 12000,
+  "source": "EIP-8141 Constants",
+  "date": "2026-10-24",
+  "status": "S"
+ },
+ "FRAME_TX_PER_FRAME_COST": {
+  "value": 475,
+  "source": "EIP-8141 Constants",
+  "date": "2026-10-24",
+  "status": "S"
+ },
+ "MAX_FRAMES": {
+  "value": 64,
+  "source": "EIP-8141 Constants",
+  "date": "2026-10-24",
+  "status": "S"
+ },
+ "STANDARD_TOKEN_COST": {
+  "value": 4,
+  "source": "EIP-8141 Constants (EIP-7976)",
+  "date": "2026-10-24",
+  "status": "S"
+ },
+ "TOTAL_COST_FLOOR_PER_TOKEN": {
+  "value": 16,
+  "source": "EIP-8141 Constants (EIP-7976)",
+  "date": "2026-10-24",
+  "status": "S"
+ },
+ "TOKENS_PER_NONZERO_BYTE": {
+  "value": 4,
+  "source": "EIP-8141 Gas Accounting, tokens_in()",
+  "date": "2026-10-24",
+  "status": "S"
+ },
+ "SIG_GAS_ARBITRARY": {
+  "value": 100,
+  "source": "EIP-8141 Signature schemes table",
+  "date": "2026-10-24",
+  "status": "S"
+ },
+ "SIG_GAS_SECP256K1": {
+  "value": 2800,
+  "source": "EIP-8141 Signature schemes table",
+  "date": "2026-10-24",
+  "status": "S"
+ },
+ "SIG_GAS_P256": {
+  "value": 6700,
+  "source": "EIP-8141 Signature schemes table",
+  "date": "2026-10-24",
+  "status": "S"
+ },
+ "MAX_VERIFY_GAS": {
+  "value": 100000,
+  "source": "EIP-8141 Mempool Constants; rule 6: sum of validation-prefix limits.execution plus signature verification cost",
+  "date": "2026-10-24",
+  "status": "S"
+ },
+ "MAX_VERIFY_STATE_GAS": {
+  "value": 500000,
+  "source": "EIP-8141 Mempool Constants",
+  "date": "2026-10-24",
+  "status": "S"
+ },
+ "SIGNATURE_BYTES_COUNT_TOWARD_MAX_VERIFY_GAS": {
+  "value": false,
+  "source": "EIP-8141 rule 6 counts 'the intrinsic cost of validating tx.signatures' (signature_verification_cost); signature_data_cost is a separate term. My reading; confirm on devnet (OPEN_QUESTIONS Q1)",
+  "date": "2026-10-24",
+  "status": "I"
+ },
+ "MAX_PENDING_TXS_USING_NON_CANONICAL_PAYMASTER": {
+  "value": 1,
+  "source": "EIP-8141 Mempool Constants",
+  "date": "2026-10-24",
+  "status": "S"
+ },
+ "PUBLIC_PREFIX_SHAPES": {
+  "value": [
+   [
+    "self_verify"
+   ],
+   [
+    "deploy",
+    "self_verify"
+   ],
+   [
+    "only_verify",
+    "pay"
+   ],
+   [
+    "deploy",
+    "only_verify",
+    "pay"
+   ]
+  ],
+  "source": "EIP-8141 Validation Prefix shapes (expiry_verify may come first and is skipped)",
+  "date": "2026-10-24",
+  "status": "S"
+ },
+ "PUBLIC_BANNED_OPCODES": {
+  "value": [
+   "GASPRICE",
+   "BLOCKHASH",
+   "COINBASE",
+   "TIMESTAMP",
+   "NUMBER",
+   "PREVRANDAO",
+   "GASLIMIT",
+   "BASEFEE",
+   "BALANCE",
+   "SELFBALANCE",
+   "SELFDESTRUCT"
+  ],
+  "source": "EIP-8141 Banned Opcodes (partial list; GAS allowed only before a call; SSTORE/CREATE only in first deploy frame)",
+  "date": "2026-10-24",
+  "status": "S"
+ },
+ "MAX_NONCE_KEYS": {
+  "value": 16,
+  "source": "EIP-8250 Constants",
+  "date": "2026-10-24",
+  "status": "S"
+ },
+ "NONCE_MANAGER": {
+  "value": "0x8250968C12e01A19d6F667b9B2F3b3A4d0e51cB7",
+  "source": "EIP-8250 Constants",
+  "date": "2026-10-24",
+  "status": "S"
+ },
+ "MAX_NONCE_SEQ": {
+  "value": "0xffffffffffffffff",
+  "source": "EIP-8250 Constants: 2**64 - 1. Not usable on the devnet: ethrex eip8141-tracer@9aa3645 rejects nonce_seq == 2**64 - 1. Lamport uses nonce_seq 0 instead.",
+  "date": "2026-10-24",
+  "status": "S"
+ },
+ "ALT_MEMPOOL_MAX_VERIFY_GAS": {
+  "value": null,
+  "source": "Unknown: ERC-8421 budgets not read (OPEN_QUESTIONS Q3). Fill in from the devnet.",
+  "date": "2026-10-24",
+  "status": "U"
+ },
+ "ALT_MEMPOOL_LINEAR_TX_CAP_PER_SENDER": {
+  "value": 4,
+  "source": "forshtat/mempool-workshop-sidecar README, mempool rules",
+  "date": "2026-10-24",
+  "status": "S"
+ },
+ "ALT_MEMPOOL_REPLACEMENT_BUMP_PERCENT": {
+  "value": 10,
+  "source": "forshtat/mempool-workshop-sidecar README",
+  "date": "2026-10-24",
+  "status": "S"
+ },
+ "ALT_MEMPOOL_RECENT_ROOT_WINDOW": {
+  "value": 8191,
+  "source": "forshtat/mempool-workshop-sidecar README: 1 <= head_slot + 1 - slot <= 8191",
+  "date": "2026-10-24",
+  "status": "S"
+ },
+ "DEVNET_NONCE_MANAGER": {
+  "value": "0x0000000000000000000000000000000000008250",
+  "source": "forshtat/ethrex eip8141-tracer@9aa3645 transaction.rs FRAME_TX_NONCE_MANAGER_U64",
+  "date": "2026-10-24",
+  "status": "S"
+ },
+ "DEVNET_MAX_VERIFY_GAS_DEFAULT": {
+  "value": 100000,
+  "source": "forshtat/ethrex eip8141-tracer@9aa3645 blockchain.rs DEFAULT_MAX_VERIFY_GAS (node option; a devnet may raise it)",
+  "date": "2026-10-24",
+  "status": "S"
+ },
+ "DEVNET_CHAIN_ID": {
+  "value": 1337,
+  "source": "forshtat/mempool-workshop-sidecar deployments/devnet.md (altmempool.forshtat.com)",
+  "date": "2026-10-24",
+  "status": "S"
+ }
+}
