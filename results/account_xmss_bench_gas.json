@@ -1,0 +1,8 @@
+{
+  "max": 820572,
+  "mean": 752704,
+  "min": 668322,
+  "note": "Profile B VERIFY frame code (bench build), Skale h=10 vectors; includes the verifier STATICCALL",
+  "samples": 4,
+  "signatureBytes": 2500
+}

@@ -1,0 +1,19 @@
+{
+  "h10": {
+    "height": 10,
+    "max": 791963,
+    "mean": 723470,
+    "min": 639713,
+    "samples": 4,
+    "signatureBytes": 2500
+  },
+  "h20": {
+    "height": 20,
+    "max": 747520,
+    "mean": 724727,
+    "min": 686810,
+    "samples": 4,
+    "signatureBytes": 2820
+  },
+  "source": "skalenetwork/xmss-solidity@749593d, vendored, unchanged"
+}

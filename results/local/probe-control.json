@@ -1,0 +1,97 @@
+{
+ "experiment": "control",
+ "note": "VERIFY code is only APPROVE(3); expected: admitted",
+ "scope": "LOCAL ethrex eip8141-tracer + local sidecar, not the public devnet",
+ "time": "2026-10-25T06:15:15.864Z",
+ "sigHash": "0xa790c19500db8b0433dec5d29002913251ecadb79eb19b604a7ea9d209317096",
+ "tx": {
+  "chainId": "0x9",
+  "nonceKeys": [
+   "0x1"
+  ],
+  "nonceSeq": "0x0",
+  "sender": "0x000000000000000000000000000000000000c0de",
+  "frames": [
+   {
+    "mode": 1,
+    "flags": 3,
+    "target": null,
+    "limits": {
+     "execution": "0xc350",
+     "state": "0x0"
+    },
+    "value": "0x0",
+    "data": "0x0100"
+   },
+   {
+    "mode": 2,
+    "flags": 0,
+    "target": "0x000000000000000000000000000000000000dEaD",
+    "limits": {
+     "execution": "0x7530",
+     "state": "0x0"
+    },
+    "value": "0x1",
+    "data": "0x"
+   }
+  ],
+  "signatures": [],
+  "fees": {
+   "maxPriorityFeePerGas": "0x3b9aca00",
+   "maxFeePerGas": "0xba43b7400",
+   "maxFeePerBlobGas": "0x0"
+  },
+  "blobVersionedHashes": [],
+  "recentRootReferences": []
+ },
+ "simulation": {
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": {
+   "canonicalMempoolValid": true,
+   "canonicalMempoolViolation": null,
+   "erc7562Trace": null,
+   "erc7562TraceError": null,
+   "executionError": null,
+   "executionStatus": "reverted",
+   "frames": [
+    {
+     "gasUsed": "0x4e8b",
+     "succeeded": true
+    },
+    {
+     "gasUsed": "0x80e8",
+     "succeeded": false
+    }
+   ],
+   "gasUsed": "0x119bd",
+   "maxCost": "0x1196d13bd18800",
+   "payer": "0x000000000000000000000000000000000000c0de",
+   "prefixShape": "SelfVerify"
+  }
+ },
+ "estimate": {
+  "jsonrpc": "2.0",
+  "id": 1,
+  "result": {
+   "frames": [
+    {
+     "execution": "0x4e8b",
+     "state": "0x0"
+    },
+    {
+     "execution": "0xbb8",
+     "state": "0x0"
+    }
+   ],
+   "cumulativeGasUsed": "0x371bd",
+   "maxFeePerGas": "0x4795ce40",
+   "maxPriorityFeePerGas": "0xf4240"
+  }
+ },
+ "response": {
+  "jsonrpc": "2.0",
+  "id": 1,
+  "result": "0xa790c19500db8b0433dec5d29002913251ecadb79eb19b604a7ea9d209317096"
+ }
+}

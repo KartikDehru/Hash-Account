@@ -1,0 +1,48 @@
+{
+ "scope": "LOCAL ethrex eip8141-tracer + local sidecar + local block driver, not the public devnet",
+ "account": "0xd90ae39Ed1162b427E4a50FE40a731742e483321",
+ "rotation": {
+  "leafUsed": 52,
+  "sidecar": {
+   "jsonrpc": "2.0",
+   "id": 1,
+   "result": "0x14cca36f3bac7e1a66ff80daff28b147b413dd4a5d71ad2be6ca403ef34f68b0"
+  },
+  "block": {
+   "number": 2,
+   "hash": "0x20d82de3f674fae2857ecaf6113e1fd964ace73f4e17b0e367a0e5d2e237a625",
+   "transactions": 1
+  },
+  "receiptStatus": "0x1",
+  "lastEpochAfter": 1,
+  "slot1": "0x015859f1b328f0509225024f37f28961dd2960d146d27738309f1d24059ddb8c",
+  "slot1Expected": "0x015859f1b328f0509225024f37f28961dd2960d146d27738309f1d24059ddb8c",
+  "slot1Matches": true
+ },
+ "paymentEpoch1": {
+  "leaf": 1,
+  "sidecar": {
+   "jsonrpc": "2.0",
+   "id": 1,
+   "result": "0x06bbac60984265b093a3a1aafe417515c399c9f37a0afc28d4e400e66959dbd1"
+  },
+  "block": {
+   "number": 3,
+   "hash": "0x640d2a8e7381811b2c13ea7cc5b6c7fbc00490eb8ddcc0eeae1d48bef6004e72",
+   "transactions": 1
+  },
+  "receiptStatus": "0x1",
+  "verifyGas": 86928
+ },
+ "paymentUnregisteredEpoch2": {
+  "simulation": "Invalid Transaction: Invalid frame transaction: VERIFY frame 0 (target 0xd90ae39ed1162b427e4a50fe40a731742e483321, 1727 bytes of code) failed: RevertOpcode",
+  "sidecar": {
+   "jsonrpc": "2.0",
+   "id": 1,
+   "error": {
+    "message": "validation frame 0: reverted",
+    "code": -32500
+   }
+  }
+ }
+}

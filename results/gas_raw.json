@@ -1,0 +1,148 @@
+{
+  "logW1": {
+    "chains": {
+      "max": 101488,
+      "mean": 99925,
+      "min": 97859
+    },
+    "copy": {
+      "max": 2063,
+      "mean": 2063,
+      "min": 2063
+    },
+    "digest": {
+      "max": 286,
+      "mean": 286,
+      "min": 286
+    },
+    "fullCall": {
+      "max": 107535,
+      "mean": 105987,
+      "min": 103921
+    },
+    "height": 10,
+    "logW": 1,
+    "path": {
+      "max": 3309,
+      "mean": 3263,
+      "min": 3219
+    },
+    "phaseSum": {
+      "max": 107086,
+      "mean": 105538,
+      "min": 103472
+    },
+    "samples": 64,
+    "signatureBytes": 8804
+  },
+  "logW2": {
+    "chains": {
+      "max": 67290,
+      "mean": 63850,
+      "min": 60179
+    },
+    "copy": {
+      "max": 1154,
+      "mean": 1154,
+      "min": 1154
+    },
+    "digest": {
+      "max": 285,
+      "mean": 285,
+      "min": 285
+    },
+    "fullCall": {
+      "max": 72470,
+      "mean": 69024,
+      "min": 65299
+    },
+    "height": 10,
+    "logW": 2,
+    "path": {
+      "max": 3294,
+      "mean": 3257,
+      "min": 3204
+    },
+    "phaseSum": {
+      "max": 71993,
+      "mean": 68547,
+      "min": 64822
+    },
+    "samples": 64,
+    "signatureBytes": 4580
+  },
+  "logW4": {
+    "chains": {
+      "max": 77281,
+      "mean": 69033,
+      "min": 58142
+    },
+    "copy": {
+      "max": 725,
+      "mean": 725,
+      "min": 725
+    },
+    "digest": {
+      "max": 285,
+      "mean": 285,
+      "min": 285
+    },
+    "fullCall": {
+      "max": 81977,
+      "mean": 73743,
+      "min": 62868
+    },
+    "height": 10,
+    "logW": 4,
+    "path": {
+      "max": 3309,
+      "mean": 3263,
+      "min": 3219
+    },
+    "phaseSum": {
+      "max": 81540,
+      "mean": 73306,
+      "min": 62431
+    },
+    "samples": 64,
+    "signatureBytes": 2468
+  },
+  "logW8": {
+    "chains": {
+      "max": 470746,
+      "mean": 384529,
+      "min": 296189
+    },
+    "copy": {
+      "max": 517,
+      "mean": 517,
+      "min": 517
+    },
+    "digest": {
+      "max": 285,
+      "mean": 285,
+      "min": 285
+    },
+    "fullCall": {
+      "max": 475326,
+      "mean": 389091,
+      "min": 300739
+    },
+    "height": 10,
+    "logW": 8,
+    "path": {
+      "max": 3309,
+      "mean": 3260,
+      "min": 3219
+    },
+    "phaseSum": {
+      "max": 474827,
+      "mean": 388592,
+      "min": 300240
+    },
+    "samples": 64,
+    "signatureBytes": 1412
+  },
+  "measuredWith": "forge test --match-test test_gas_report (GasProbe, gasleft deltas)",
+  "solc": "0.8.37 via-IR, optimizer 200 runs, evm prague"
+}

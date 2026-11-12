@@ -1,0 +1,89 @@
+{
+ "experiment": "banned",
+ "note": "VERIFY code runs TIMESTAMP then APPROVE(3); expected: refused (banned opcode)",
+ "scope": "LOCAL ethrex eip8141-tracer + local sidecar, not the public devnet",
+ "time": "2026-10-25T06:15:16.156Z",
+ "sigHash": "0xdbb5c153d0cb5ee6ec8fd8e425073dd60a3124177439bc2a7c5ea2cba1c519ce",
+ "tx": {
+  "chainId": "0x9",
+  "nonceKeys": [
+   "0x1"
+  ],
+  "nonceSeq": "0x0",
+  "sender": "0x000000000000000000000000000000000000b4d0",
+  "frames": [
+   {
+    "mode": 1,
+    "flags": 3,
+    "target": null,
+    "limits": {
+     "execution": "0xc350",
+     "state": "0x0"
+    },
+    "value": "0x0",
+    "data": "0x0100"
+   },
+   {
+    "mode": 2,
+    "flags": 0,
+    "target": "0x000000000000000000000000000000000000dEaD",
+    "limits": {
+     "execution": "0x7530",
+     "state": "0x0"
+    },
+    "value": "0x1",
+    "data": "0x"
+   }
+  ],
+  "signatures": [],
+  "fees": {
+   "maxPriorityFeePerGas": "0x3b9aca00",
+   "maxFeePerGas": "0xba43b7400",
+   "maxFeePerBlobGas": "0x0"
+  },
+  "blobVersionedHashes": [],
+  "recentRootReferences": []
+ },
+ "simulation": {
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": {
+   "canonicalMempoolValid": false,
+   "canonicalMempoolViolation": "BannedOpcode(66)",
+   "erc7562Trace": null,
+   "erc7562TraceError": null,
+   "executionError": null,
+   "executionStatus": "reverted",
+   "frames": [
+    {
+     "gasUsed": "0x4e8f",
+     "succeeded": true
+    },
+    {
+     "gasUsed": "0x80e8",
+     "succeeded": false
+    }
+   ],
+   "gasUsed": "0x119c1",
+   "maxCost": "0x1196d13bd18800",
+   "payer": "0x000000000000000000000000000000000000b4d0",
+   "prefixShape": "SelfVerify"
+  }
+ },
+ "estimate": {
+  "jsonrpc": "2.0",
+  "id": 1,
+  "error": {
+   "message": "payer uses banned opcode: TIMESTAMP",
+   "code": -32502
+  }
+ },
+ "response": {
+  "jsonrpc": "2.0",
+  "id": 1,
+  "error": {
+   "message": "payer uses banned opcode: TIMESTAMP",
+   "code": -32502
+  }
+ }
+}

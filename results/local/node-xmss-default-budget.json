@@ -1,0 +1,54 @@
+{
+ "scope": "LOCAL ethrex with the default --mempool.max-verify-gas (100,000), Profile B sent to the node directly (no sidecar).",
+ "leaf": 2,
+ "sidecarNote": "the sidecar at fcb4885 refuses this transaction (100,000 cap), see send-b-*.json",
+ "slotBefore": "0x0000000000000000000000000000000000000000000000000000000000000000",
+ "simulation": {
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": {
+   "canonicalMempoolValid": false,
+   "canonicalMempoolViolation": "prefix gas budget exceeded: 900100 > 100000 (MAX_VERIFY_GAS)",
+   "erc7562Trace": null,
+   "erc7562TraceError": null,
+   "executionError": null,
+   "executionStatus": "success",
+   "frames": [
+    {
+     "gasUsed": "0xb3d6e",
+     "succeeded": true
+    },
+    {
+     "gasUsed": "0xbb8",
+     "succeeded": true
+    }
+   ],
+   "gasUsed": "0xefd7c",
+   "maxCost": "0xd33d5f644e7800",
+   "payer": "0xecc6a2dfe03568c2f296bb3d036f766a7449e560",
+   "prefixShape": "SelfVerify"
+  }
+ },
+ "nodeSubmit": {
+  "error": {
+   "code": -32000,
+   "message": "Invalid params: Frame transaction prefix gas budget (frames + sig cost) exceeds MAX_VERIFY_GAS"
+  },
+  "id": 1,
+  "jsonrpc": "2.0"
+ },
+ "block": {
+  "number": 1,
+  "hash": "0x920ccadb8351fb1d1b5f96b3903e1dddf48f49125ade7e19ad91b5f884a3e809",
+  "transactions": 0
+ },
+ "receipt": {
+  "error": {
+   "code": -32000,
+   "message": "Invalid params: invalid type: null, expected a (both 0x-prefixed or not) hex string or byte array containing 32 bytes"
+  },
+  "id": 1,
+  "jsonrpc": "2.0"
+ },
+ "slotAfter": "0x0000000000000000000000000000000000000000000000000000000000000000"
+}

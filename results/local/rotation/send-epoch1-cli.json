@@ -1,0 +1,42 @@
+{
+ "saved": "/home/user/Lamp/results/local/rotation/send-2026-10-25T06-25-45.268Z.json",
+ "simulation": {
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": {
+   "canonicalMempoolValid": true,
+   "canonicalMempoolViolation": null,
+   "erc7562Trace": null,
+   "erc7562TraceError": null,
+   "executionError": null,
+   "executionStatus": "success",
+   "frames": [
+    {
+     "gasUsed": "0x15390",
+     "succeeded": true
+    },
+    {
+     "gasUsed": "0xbb8",
+     "succeeded": true
+    }
+   ],
+   "gasUsed": "0x599da",
+   "maxCost": "0x89419989610b0",
+   "payer": "0xd90ae39ed1162b427e4a50fe40a731742e483321",
+   "prefixShape": "SelfVerify"
+  }
+ },
+ "estimate": {
+  "jsonrpc": "2.0",
+  "id": 1,
+  "error": {
+   "message": "validation frame 0: reverted",
+   "code": -32500
+  }
+ },
+ "response": {
+  "jsonrpc": "2.0",
+  "id": 1,
+  "result": "0x06bbac60984265b093a3a1aafe417515c399c9f37a0afc28d4e400e66959dbd1"
+ }
+}

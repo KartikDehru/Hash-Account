@@ -1,0 +1,157 @@
+{
+ "source": "scripts/frontier.py",
+ "library16Max": 81977,
+ "altBudget": null,
+ "rows": [
+  {
+   "name": "Lamport library, Winternitz w=2",
+   "basis": "measured library call only",
+   "signatureBytes": 8804,
+   "chains": 265,
+   "meanGas": 105987,
+   "maxGas": 107535,
+   "samples": 64,
+   "dataGasStandard": 140864,
+   "admission": {
+    "public": "REFUSED",
+    "alt": "UNKNOWN",
+    "reason": "declared prefix execution limits 107535 + signature verification 100 = 107635 vs cap 100000"
+   }
+  },
+  {
+   "name": "Lamport library, Winternitz w=4",
+   "basis": "measured library call only",
+   "signatureBytes": 4580,
+   "chains": 133,
+   "meanGas": 69024,
+   "maxGas": 72470,
+   "samples": 64,
+   "dataGasStandard": 73280,
+   "admission": {
+    "public": "ACCEPTED",
+    "alt": "UNKNOWN",
+    "reason": ""
+   }
+  },
+  {
+   "name": "Lamport account, Winternitz w=16 (Profile A)",
+   "basis": "measured (account VERIFY frame, bench build)",
+   "signatureBytes": 2468,
+   "chains": 67,
+   "meanGas": 70139,
+   "maxGas": 79924,
+   "samples": 128,
+   "dataGasStandard": 39488,
+   "admission": {
+    "public": "ACCEPTED",
+    "alt": "UNKNOWN",
+    "reason": ""
+   }
+  },
+  {
+   "name": "Lamport library, Winternitz w=256",
+   "basis": "measured library call only",
+   "signatureBytes": 1412,
+   "chains": 34,
+   "meanGas": 389091,
+   "maxGas": 475326,
+   "samples": 64,
+   "dataGasStandard": 22592,
+   "admission": {
+    "public": "REFUSED",
+    "alt": "UNKNOWN",
+    "reason": "declared prefix execution limits 475326 + signature verification 100 = 475426 vs cap 100000"
+   }
+  },
+  {
+   "name": "XMSS-SHA2 h=10 (Skale, vendored)",
+   "basis": "measured library call only",
+   "signatureBytes": 2500,
+   "chains": 67,
+   "meanGas": 723470,
+   "maxGas": 791963,
+   "samples": 4,
+   "dataGasStandard": 40000,
+   "admission": {
+    "public": "REFUSED",
+    "alt": "UNKNOWN",
+    "reason": "declared prefix execution limits 791963 + signature verification 100 = 792063 vs cap 100000"
+   }
+  },
+  {
+   "name": "XMSS-SHA2 h=20 (Skale, vendored)",
+   "basis": "measured library call only",
+   "signatureBytes": 2820,
+   "chains": 67,
+   "meanGas": 724727,
+   "maxGas": 747520,
+   "samples": 4,
+   "dataGasStandard": 45120,
+   "admission": {
+    "public": "REFUSED",
+    "alt": "UNKNOWN",
+    "reason": "declared prefix execution limits 747520 + signature verification 100 = 747620 vs cap 100000"
+   }
+  },
+  {
+   "name": "Lamport account, XMSS h=10 (Profile B)",
+   "basis": "measured (account VERIFY frame incl. verifier call, bench build)",
+   "signatureBytes": 2500,
+   "chains": 67,
+   "meanGas": 752704,
+   "maxGas": 820572,
+   "samples": 4,
+   "dataGasStandard": 40000,
+   "admission": {
+    "public": "REFUSED",
+    "alt": "UNKNOWN",
+    "reason": "declared prefix execution limits 820572 + signature verification 100 = 820672 vs cap 100000"
+   }
+  },
+  {
+   "name": "Lamport account, w=16, keyed nonce (Profile A) on ethrex",
+   "basis": "LOCAL ethrex simulation, real opcodes incl. 20,000 keyed-nonce charge",
+   "signatureBytes": 2468,
+   "chains": 67,
+   "meanGas": 89156,
+   "maxGas": 96114,
+   "samples": 48,
+   "dataGasStandard": 39488,
+   "admission": {
+    "public": "ACCEPTED",
+    "alt": "UNKNOWN",
+    "reason": ""
+   }
+  },
+  {
+   "name": "Lamport account, w=16, legacy nonce (Profile A) on ethrex",
+   "basis": "LOCAL ethrex simulation, real opcodes",
+   "signatureBytes": 2468,
+   "chains": 67,
+   "meanGas": 68829,
+   "maxGas": 74942,
+   "samples": 48,
+   "dataGasStandard": 39488,
+   "admission": {
+    "public": "ACCEPTED",
+    "alt": "UNKNOWN",
+    "reason": ""
+   }
+  },
+  {
+   "name": "Lamport account, XMSS h=10 (Profile B) on ethrex",
+   "basis": "LOCAL ethrex simulation, real opcodes incl. 20,000 keyed-nonce charge (1 sample)",
+   "signatureBytes": 2500,
+   "chains": 67,
+   "meanGas": 675712,
+   "maxGas": 675712,
+   "samples": 1,
+   "dataGasStandard": 40000,
+   "admission": {
+    "public": "REFUSED",
+    "alt": "UNKNOWN",
+    "reason": "declared prefix execution limits 675712 + signature verification 100 = 675812 vs cap 100000"
+   }
+  }
+ ]
+}
