@@ -1,5 +1,5 @@
 {
- "saved": "/home/user/Lamp/results/local/rotation/send-2026-10-25T06-26-05.861Z.json",
+ "saved": "/Users/kartikdehru/Desktop/Lamport/Lamp-main/results/local/rotation/send-2026-11-12T12-55-20.691Z.json",
  "simulation": {
   "id": 1,
   "jsonrpc": "2.0",
@@ -8,14 +8,14 @@
    "canonicalMempoolViolation": "validation prefix frame reverted",
    "erc7562Trace": null,
    "erc7562TraceError": null,
-   "executionError": "Invalid Transaction: Invalid frame transaction: VERIFY frame 0 (target 0xd90ae39ed1162b427e4a50fe40a731742e483321, 1727 bytes of code) failed: RevertOpcode",
+   "executionError": "Invalid Transaction: Invalid frame transaction: VERIFY frame 0 (target 0xcfec10f694cbdb7866de1906c99e365f5ec81193, 1727 bytes of code) failed: RevertOpcode",
    "executionStatus": null,
    "failedFrameIndex": 0,
    "frames": null,
    "gasUsed": null,
    "haltDetail": "the frame reverted",
    "haltReason": "revert",
-   "maxCost": "0x8457c3cce1cb9",
+   "maxCost": "0x8318953530c8a",
    "payer": null,
    "prefixShape": "SelfVerify",
    "revertData": "0x"

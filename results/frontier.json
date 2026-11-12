@@ -4,7 +4,7 @@
  "altBudget": null,
  "rows": [
   {
-   "name": "Lamport library, Winternitz w=2",
+   "name": "HashAccount library, Winternitz w=2",
    "basis": "measured library call only",
    "signatureBytes": 8804,
    "chains": 265,
@@ -19,7 +19,7 @@
    }
   },
   {
-   "name": "Lamport library, Winternitz w=4",
+   "name": "HashAccount library, Winternitz w=4",
    "basis": "measured library call only",
    "signatureBytes": 4580,
    "chains": 133,
@@ -34,7 +34,7 @@
    }
   },
   {
-   "name": "Lamport account, Winternitz w=16 (Profile A)",
+   "name": "HashAccount, Winternitz w=16 (Profile A)",
    "basis": "measured (account VERIFY frame, bench build)",
    "signatureBytes": 2468,
    "chains": 67,
@@ -49,7 +49,7 @@
    }
   },
   {
-   "name": "Lamport library, Winternitz w=256",
+   "name": "HashAccount library, Winternitz w=256",
    "basis": "measured library call only",
    "signatureBytes": 1412,
    "chains": 34,
@@ -94,7 +94,7 @@
    }
   },
   {
-   "name": "Lamport account, XMSS h=10 (Profile B)",
+   "name": "HashAccount, XMSS h=10 (Profile B)",
    "basis": "measured (account VERIFY frame incl. verifier call, bench build)",
    "signatureBytes": 2500,
    "chains": 67,
@@ -109,12 +109,12 @@
    }
   },
   {
-   "name": "Lamport account, w=16, keyed nonce (Profile A) on ethrex",
+   "name": "HashAccount, w=16, keyed nonce (Profile A) on ethrex",
    "basis": "LOCAL ethrex simulation, real opcodes incl. 20,000 keyed-nonce charge",
    "signatureBytes": 2468,
    "chains": 67,
-   "meanGas": 89156,
-   "maxGas": 96114,
+   "meanGas": 88797,
+   "maxGas": 95356,
    "samples": 48,
    "dataGasStandard": 39488,
    "admission": {
@@ -124,12 +124,12 @@
    }
   },
   {
-   "name": "Lamport account, w=16, legacy nonce (Profile A) on ethrex",
+   "name": "HashAccount, w=16, legacy nonce (Profile A) on ethrex",
    "basis": "LOCAL ethrex simulation, real opcodes",
    "signatureBytes": 2468,
    "chains": 67,
-   "meanGas": 68829,
-   "maxGas": 74942,
+   "meanGas": 67961,
+   "maxGas": 76294,
    "samples": 48,
    "dataGasStandard": 39488,
    "admission": {
@@ -139,18 +139,18 @@
    }
   },
   {
-   "name": "Lamport account, XMSS h=10 (Profile B) on ethrex",
+   "name": "HashAccount, XMSS h=10 (Profile B) on ethrex",
    "basis": "LOCAL ethrex simulation, real opcodes incl. 20,000 keyed-nonce charge (1 sample)",
    "signatureBytes": 2500,
    "chains": 67,
-   "meanGas": 675712,
-   "maxGas": 675712,
+   "meanGas": 812737,
+   "maxGas": 812737,
    "samples": 1,
    "dataGasStandard": 40000,
    "admission": {
     "public": "REFUSED",
     "alt": "UNKNOWN",
-    "reason": "declared prefix execution limits 675712 + signature verification 100 = 675812 vs cap 100000"
+    "reason": "declared prefix execution limits 812737 + signature verification 100 = 812837 vs cap 100000"
    }
   }
  ]

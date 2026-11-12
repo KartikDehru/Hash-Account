@@ -2,7 +2,7 @@
  "experiment": "control",
  "note": "VERIFY code is only APPROVE(3); expected: admitted",
  "scope": "LOCAL ethrex eip8141-tracer + local sidecar, not the public devnet",
- "time": "2026-10-25T06:15:15.864Z",
+ "time": "2026-11-12T12:53:29.064Z",
  "sigHash": "0xa790c19500db8b0433dec5d29002913251ecadb79eb19b604a7ea9d209317096",
  "tx": {
   "chainId": "0x9",

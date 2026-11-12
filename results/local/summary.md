@@ -5,21 +5,20 @@ LOCAL ethrex `eip8141-tracer` + local sidecar, not the public devnet. The first 
 | experiment | ethrex simulation (per frame) | sidecar verdict | file |
 |---|---|---|---|
 | banned | frame 0: ok, 20,111 gas; frame 1: failed, 33,000 gas | REFUSED: payer uses banned opcode: TIMESTAMP | `probe-banned.json` |
-| bigsig | frame 0: ok, 82,963 gas; frame 1: ok, 3,000 gas | ACCEPTED into the sidecar mempool (0xe0e1b017fc3ec1aa...) | `probe-bigsig.json` |
+| bigsig | frame 0: ok, 90,383 gas; frame 1: ok, 3,000 gas | ACCEPTED into the sidecar mempool (0x310431520e3ff14f...) | `probe-bigsig.json` |
 | control-legacy | frame 0: ok, 107 gas; frame 1: failed, 33,000 gas | ACCEPTED into the sidecar mempool (0x320d01892626a86f...) | `probe-control-legacy.json` |
 | control | frame 0: ok, 20,107 gas; frame 1: failed, 33,000 gas | ACCEPTED into the sidecar mempool (0xa790c19500db8b04...) | `probe-control.json` |
-| deploy | frame 0: ok, 28,853 gas; frame 1: ok, 85,956 gas; frame 2: ok, 3,000 gas | REFUSED: validation prefix execution gas sum 492649 + signature-verification cost 100 = 492749 exceeds MAX_VERIFY_GAS 100000 | `probe-deploy-last.json` |
-| deploy | frame 0: ok, 28,853 gas; frame 1: ok, 90,647 gas; frame 2: ok, 3,000 gas | REFUSED: validation prefix execution gas sum 495026 + signature-verification cost 100 = 495126 exceeds MAX_VERIFY_GAS 100000 | `probe-deploy.json` |
-| Profile A payment (keyed nonce) | frame 0: ok, 86,878 gas; frame 1: ok, 3,000 gas | ACCEPTED into the sidecar mempool (0x678d67ca7e5f62fc...) | `send-2026-10-25T06-14-46.011Z.json` |
-| Profile A payment (legacy nonce) | frame 0: ok, 64,475 gas; frame 1: ok, 3,000 gas | ACCEPTED into the sidecar mempool (0x1735d715e86cb06b...) | `send-2026-10-25T06-15-05.222Z.json` |
-| Profile B payment | frame 0: ok, 675,712 gas; frame 1: ok, 3,000 gas | REFUSED: validation prefix execution gas sum 900000 + signature-verification cost 100 = 900100 exceeds MAX_VERIFY_GAS 100000 | `send-b-2026-10-25T06-15-05.414Z.json` |
+| deploy | frame 0: ok, 28,853 gas; frame 1: ok, 87,276 gas; frame 2: ok, 3,000 gas | REFUSED: validation prefix execution gas sum 495087 + signature-verification cost 100 = 495187 exceeds MAX_VERIFY_GAS 100000 | `probe-deploy.json` |
+| Profile A payment (keyed nonce) | frame 0: ok, 86,718 gas; frame 1: ok, 3,000 gas | ACCEPTED into the sidecar mempool (0xef2f2b6dc68315ef...) | `send-2026-11-12T12-53-23.212Z.json` |
+| Profile A payment (legacy nonce) | frame 0: ok, 67,673 gas; frame 1: ok, 3,000 gas | ACCEPTED into the sidecar mempool (0xa85c35179df1eb6e...) | `send-2026-11-12T12-53-26.711Z.json` |
+| Profile B payment | frame 0: ok, 812,737 gas; frame 1: ok, 3,000 gas | REFUSED: validation prefix execution gas sum 900000 + signature-verification cost 100 = 900100 exceeds MAX_VERIFY_GAS 100000 | `send-b-2026-11-12T12-53-26.754Z.json` |
 
 Real VERIFY frame gas on ethrex (simulation, high limit, each sample a fresh leaf):
 
 | frame | samples | min | mean | max | file |
 |---|---|---|---|---|---|
-| Profile A VERIFY frame, keyed nonce | 48 | 80,452 | 89,156 | 96,114 | `calibration_keyed.json` |
-| Profile A VERIFY frame, legacy nonce | 48 | 62,806 | 68,829 | 74,942 | `calibration_legacy.json` |
+| Profile A VERIFY frame, keyed nonce | 48 | 81,790 | 88,797 | 95,356 | `calibration_keyed.json` |
+| Profile A VERIFY frame, legacy nonce | 48 | 62,095 | 67,961 | 76,294 | `calibration_legacy.json` |
 
 Inclusion on the local chain (blocks built by scripts/local_blocks.py through the Engine API):
 
@@ -27,14 +26,14 @@ Inclusion on the local chain (blocks built by scripts/local_blocks.py through th
 |---|---|---|---|---|---|---|---|
 | Profile A, keyed nonce | leaf 50 | block 2, status 0x1 | key sequence 0 -> key sequence 1 | node: Invalid Transaction: Nonce mismatch: expected 1, got 0; sidecar: Invalid Transaction: Nonce mismatch: expected 1, got 0 | validation frame 0: reverted | refused: leaf 50 is already used or pending; refusing to sign; next leaf 51 | `inclusion-keyed.json` |
 | Profile A, legacy nonce | leaf 1 | block 3, status 0x1 | account nonce 1 -> account nonce 2 | node: Invalid Transaction: Nonce mismatch: expected 2, got 1; sidecar: Invalid Transaction: Nonce mismatch: expected 2, got 1 | validation frame 0: reverted | refused: leaf 1 is already used or pending; refusing to sign; next leaf 2 | `inclusion-legacy.json` |
-| Profile B, node budget raised to 1,000,000 (no sidecar) | leaf 1 | block 2, status 0x1, VERIFY 706,172 gas | slot 0 -> 1 | n/a | n/a | n/a | `inclusion-xmss-raised-node-budget.json` |
-| Profile B through the PATCHED sidecar (budget 1,000,000, precompiles listed; docs/RULE_FINDINGS.md) | leaf 3 | accepted by the sidecar, relayed, block 2, status 0x1, VERIFY 812,757 gas | slot 0 -> 1 | n/a | n/a | n/a | `inclusion-xmss-patched-sidecar.json` |
+| Profile B, node budget raised to 1,000,000 (no sidecar) | leaf 1 | block 2, status 0x1, VERIFY 782,297 gas | slot 0 -> 1 | n/a | n/a | n/a | `inclusion-xmss-raised-node-budget.json` |
+| Profile B through the PATCHED sidecar (budget 1,000,000, precompiles listed; docs/RULE_FINDINGS.md) | leaf 3 | accepted by the sidecar, relayed, block 2, status 0x1, VERIFY 736,632 gas | slot 0 -> 1 | n/a | n/a | n/a | `inclusion-xmss-patched-sidecar.json` |
 | Profile B, default node budget 100,000 (no sidecar) | leaf 2 | refused at submission: Invalid params: Frame transaction prefix gas budget (frames + sig cost) exceeds MAX_VERIFY_GAS | n/a | n/a | n/a | n/a | `node-xmss-default-budget.json` |
 
 Key rotation on the local chain (`rotation/summary.json`):
 
-- Rotation signed with epoch-0 leaf 52: block 2, status 0x1; last epoch now 1; slot 1 holds the new tree's commitment: True.
-- Payment with the epoch-1 key (leaf 1): block 3, status 0x1, VERIFY 86,928 gas.
-- Payment with an unregistered epoch-2 key: node Invalid Transaction: Invalid frame transaction: VERIFY frame 0 (target 0xd90ae39ed1162b427e4a50fe40a731742e483321, 1727 bytes of code) failed: RevertOpcode; sidecar: validation frame 0: reverted.
+- Rotation signed with epoch-0 leaf 51: block 2, status 0x1; last epoch now 1; slot 1 holds the new tree's commitment: True.
+- Payment with the epoch-1 key (leaf 0): block 3, status 0x1, VERIFY 90,240 gas.
+- Payment with an unregistered epoch-2 key: node Invalid Transaction: Invalid frame transaction: VERIFY frame 0 (target 0xcfec10f694cbdb7866de1906c99e365f5ec81193, 1727 bytes of code) failed: RevertOpcode; sidecar: validation frame 0: reverted.
 
 Deploy + self_verify in one transaction: the deploy frame needs between 2,739,746 and 2,740,417 state gas (1,727 runtime bytes x 1,530 = 2,642,310); the public cap is 500,000: deploy + self_verify cannot pass the public state-gas cap (`deploy_state.json`).

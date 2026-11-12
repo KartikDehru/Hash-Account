@@ -40,9 +40,9 @@ def bar_chart(rows, cap):
     for i, r in enumerate(rows):
         y = top + i * (bar + gap)
         w = x(r["maxGas"]) - left
-        name = r["name"].replace("Lamport account, ", "Lamport ").replace(" (Skale, vendored)", " (Skale lib)")
+        name = r["name"].replace(" (Skale, vendored)", " (Skale lib)")
         name = name.replace(" (Profile A) on ethrex", ", ethrex").replace(" (Profile B) on ethrex", ", ethrex")
-        name = name.replace(" (Profile A)", ", bench").replace(" (Profile B)", ", bench").replace("Lamport library, ", "Lib ")
+        name = name.replace(" (Profile A)", ", bench").replace(" (Profile B)", ", bench").replace("HashAccount library, ", "Lib ")
         verdict = "fits public cap" if r["admission"]["public"] == "ACCEPTED" else "over public cap"
         out.append(f'<text class="ink" x="{left - 8}" y="{y + bar / 2 + 4}" text-anchor="end">{esc(name)}</text>')
         out.append(f'<rect class="bar" x="{left}" y="{y}" width="{w:.1f}" height="{bar}" rx="4">'

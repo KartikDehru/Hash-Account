@@ -327,7 +327,7 @@ contract LamportAccountTest is Test {
         string memory out = vm.serializeString(
             "bench",
             "note",
-            "VERIFY frame code of LamportAccount (bench build: context from calldata). Includes the warm STATICCALL (100). Excludes frame-level intrinsic costs."
+            "VERIFY frame code of HashAccount (bench build: context from calldata). Includes the warm STATICCALL (100). Excludes frame-level intrinsic costs."
         );
         vm.writeJson(out, "../results/account_bench_gas.json");
     }

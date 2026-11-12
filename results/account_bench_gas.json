@@ -132,7 +132,7 @@
   "max": 79924,
   "mean": 70139,
   "min": 62620,
-  "note": "VERIFY frame code of LamportAccount (bench build: context from calldata). Includes the warm STATICCALL (100). Excludes frame-level intrinsic costs.",
+  "note": "VERIFY frame code of HashAccount (bench build: context from calldata). Includes the warm STATICCALL (100). Excludes frame-level intrinsic costs.",
   "samples": 128,
   "steps": [
     495,

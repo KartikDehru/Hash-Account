@@ -19,7 +19,7 @@ A proposed Ethereum upgrade, **EIP-8141 "frame transactions"**, lets an account 
 The catch is a budget: to keep nodes safe from spam, the normal (public) transaction pool only accepts transactions whose checking step costs at most **100,000 gas**. A second, "alternative" pool is being designed for transactions that need more. Profile A is measured against the public cap. Profile B shows which schemes need the larger budget.
 
 ## What we built
-- **Profile A**: the account described above, using a signature type called Winternitz. It is small enough for the public pool: in our measurements its checking step cost at most 74,942 gas with the ordinary nonce and 96,114 with the newer "keyed" nonce.
+- **Profile A**: the account described above, using a signature type called Winternitz. It is small enough for the public pool: in the 12 Nov 2026 local measurements its checking step cost at most 76,294 gas with the ordinary nonce and 95,356 with the newer "keyed" nonce.
 - **Profile B**: the same idea with a heavier, standardised scheme (XMSS, reusing an open-source verifier from SKALE). It costs about three quarters of a million gas, so it can only go through the alternative pool.
 - **A signer** (the program that creates signatures). It asks the chain which keys are already used, keeps its own written record, and refuses to sign twice with one key.
 - **Measurements and tools**: scripts that measure the gas of each signature type, a checker that predicts whether a transaction would be admitted, an "attack view" that shows why reusing a key is dangerous, and a demo page (`results/demo.html`).

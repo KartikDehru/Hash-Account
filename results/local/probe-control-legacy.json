@@ -2,7 +2,7 @@
  "experiment": "control-legacy",
  "note": "same control account with the legacy nonce (nonce_keys = [0]); compare with control to isolate the keyed-nonce cost",
  "scope": "LOCAL ethrex eip8141-tracer + local sidecar, not the public devnet",
- "time": "2026-10-25T06:15:16.023Z",
+ "time": "2026-11-12T12:53:29.098Z",
  "sigHash": "0x320d01892626a86fc6c30ac69957bc36f24e5fe6fe6f6c59ddf760010e62f122",
  "tx": {
   "chainId": "0x9",

@@ -2,7 +2,7 @@
 
 A post-quantum Ethereum account: no ECDSA key, hash-based one-time signatures (Winternitz keys in a Merkle tree), each key spent through the transaction nonce on the EIP-8141 design, and a measured map of which of those schemes fit the draft public mempool cap of 100,000 gas.
 
-This is an account contract and a signer. It is not a wallet application: there is no browser extension and no hosted service. The contracts, the Python package, and the nonce tag keep the name Lamport, after the one-time signature. Those names are already in the measured artifacts, so they stay.
+This is an account contract and a signer. It is not a wallet application: there is no browser extension and no hosted service. The result tables use the name HashAccount. The contract files, the Python package, and the nonce tag stay Lamport, after the one-time signature.
 
 Hash-based, believed to resist known quantum attacks. **Unaudited research code. Test keys only.** How this differs from wallets described as quantum-proof is in [docs/PRIOR_ART.md](docs/PRIOR_ART.md). EIP-8141 is not on mainnet. No public-devnet transaction has been sent.
 
@@ -37,7 +37,7 @@ Public devnet: see [docs/DEVNET_RUNBOOK.md](docs/DEVNET_RUNBOOK.md). **No public
 - **Account** (`contracts/account/LamportAccount.yul.in`): its address is a CREATE2 address over code that holds the key-tree root and a public seed, so no ECDSA key exists for it. Its VERIFY entry reads the signature from an `ARBITRARY` signature entry (`SIGDATACOPY`), verifies it over the canonical signature hash (`TXPARAM(0x08)`), and calls `APPROVE(3)`.
 - **One-time keys and the nonce**: 1,024 Winternitz (w = 16, 67 chains) keys in a height-10 tree. Keyed mode (default): leaf `i` may only be used with `nonce_keys = [LAMP_BASE + i]` and `nonce_seq = 0`; a key can be at sequence 0 only once. Legacy mode (constructor flag): leaf = the account nonce. Either way the chain itself refuses a second use of a leaf (shown on the local chain), with no storage write in the read-only VERIFY frame. Keyed mode costs 20,000 gas more per transaction (measured).
 - **Signer** (`signer/`, `reference/lamport/signer.py`): finds the next unused leaf by reading the NONCE_MANAGER storage on chain (no local counter), also checks the mempool and an append-only journal, and refuses to sign twice with one leaf.
-- **Profiles**: A = this account (aims at the public mempool). B = `contracts/account/LamportXmssAccount.yul.in`, an account whose VERIFY frame calls Skale's XMSS verifier (vendored, unchanged) through `LamportXmssVerifier`; 675,712 to 812,757 gas in four local ethrex simulations (`results/local/*xmss*.json`, `send-b-*.json`), so it needs a budget far above 100,000. Its nonce keys use the tag `LMPB`.
+- **Profiles**: A = this account (aims at the public mempool). B = `contracts/account/LamportXmssAccount.yul.in`, an account whose VERIFY frame calls Skale's XMSS verifier (vendored, unchanged) through `LamportXmssVerifier`; 736,632 to 812,737 gas in the local ethrex runs (`results/local/*xmss*.json`, `send-b-*.json`), so it needs a budget far above 100,000. Its nonce keys use the tag `LMPB`.
 - **Key rotation**: when a key tree runs low, a transaction signed by the current tree registers the next one (`cli rotate`). The account stores one commitment per tree (`keccak256(seed || root)`) and checks it with one storage read. Each tree has its own random seed.
 - **Exact VERIFY limit**: the signer counts the hash steps of each signature and sets the frame limit from a fitted model (`results/verify_gas_model.json`).
 - **Attack view** (`results/attack.html`, from `scripts/attack_view.py`): a stand-in attacker forges toy-size keys after two signatures on one key, and the signer refuses reuse.
@@ -50,20 +50,20 @@ Public devnet: see [docs/DEVNET_RUNBOOK.md](docs/DEVNET_RUNBOOK.md). **No public
 Profile A account VERIFY frame (w=16, h=10): mean 70,139 gas, 62,620 to 79,924 over 128 random keys and messages (bench build, results/account_bench_gas.json). Signature 2,468 bytes.
 
 VERIFY limit = largest gas seen in the samples. Public rule: declared VERIFY limit + 100 (ARBITRARY) <= 100,000. Alt-mempool budget: unknown (no devnet value yet).
-Rows named 'Lamport account' are full account VERIFY frames. Other rows are the verifier call alone (no frame adjustment; for comparison the w=16 library call max is 81,977, above the w=16 account frame max 79,924).
+Rows named 'HashAccount' are full account VERIFY frames. Other rows are the verifier call alone (no frame adjustment; for comparison the w=16 library call max is 81,977 and the w=16 account frame max is 79,924).
 
 | scheme | signature bytes | VERIFY gas mean | VERIFY gas max | basis | signature data gas (16/byte) | public mempool | alt mempool |
 |---|---|---|---|---|---|---|---|
-| Lamport library, Winternitz w=2 | 8,804 | 105,987 | 107,535 | measured library call only | 140,864 | REFUSED | UNKNOWN |
-| Lamport library, Winternitz w=4 | 4,580 | 69,024 | 72,470 | measured library call only | 73,280 | ACCEPTED | UNKNOWN |
-| Lamport account, Winternitz w=16 (Profile A) | 2,468 | 70,139 | 79,924 | measured (account VERIFY frame, bench build) | 39,488 | ACCEPTED | UNKNOWN |
-| Lamport library, Winternitz w=256 | 1,412 | 389,091 | 475,326 | measured library call only | 22,592 | REFUSED | UNKNOWN |
+| HashAccount library, Winternitz w=2 | 8,804 | 105,987 | 107,535 | measured library call only | 140,864 | REFUSED | UNKNOWN |
+| HashAccount library, Winternitz w=4 | 4,580 | 69,024 | 72,470 | measured library call only | 73,280 | ACCEPTED | UNKNOWN |
+| HashAccount, Winternitz w=16 (Profile A) | 2,468 | 70,139 | 79,924 | measured (account VERIFY frame, bench build) | 39,488 | ACCEPTED | UNKNOWN |
+| HashAccount library, Winternitz w=256 | 1,412 | 389,091 | 475,326 | measured library call only | 22,592 | REFUSED | UNKNOWN |
 | XMSS-SHA2 h=10 (Skale, vendored) | 2,500 | 723,470 | 791,963 | measured library call only | 40,000 | REFUSED | UNKNOWN |
 | XMSS-SHA2 h=20 (Skale, vendored) | 2,820 | 724,727 | 747,520 | measured library call only | 45,120 | REFUSED | UNKNOWN |
-| Lamport account, XMSS h=10 (Profile B) | 2,500 | 752,704 | 820,572 | measured (account VERIFY frame incl. verifier call, bench build) | 40,000 | REFUSED | UNKNOWN |
-| Lamport account, w=16, keyed nonce (Profile A) on ethrex | 2,468 | 89,156 | 96,114 | LOCAL ethrex simulation, real opcodes incl. 20,000 keyed-nonce charge | 39,488 | ACCEPTED | UNKNOWN |
-| Lamport account, w=16, legacy nonce (Profile A) on ethrex | 2,468 | 68,829 | 74,942 | LOCAL ethrex simulation, real opcodes | 39,488 | ACCEPTED | UNKNOWN |
-| Lamport account, XMSS h=10 (Profile B) on ethrex | 2,500 | 675,712 | 675,712 | LOCAL ethrex simulation, real opcodes incl. 20,000 keyed-nonce charge (1 sample) | 40,000 | REFUSED | UNKNOWN |
+| HashAccount, XMSS h=10 (Profile B) | 2,500 | 752,704 | 820,572 | measured (account VERIFY frame incl. verifier call, bench build) | 40,000 | REFUSED | UNKNOWN |
+| HashAccount, w=16, keyed nonce (Profile A) on ethrex | 2,468 | 88,797 | 95,356 | LOCAL ethrex simulation, real opcodes incl. 20,000 keyed-nonce charge | 39,488 | ACCEPTED | UNKNOWN |
+| HashAccount, w=16, legacy nonce (Profile A) on ethrex | 2,468 | 67,961 | 76,294 | LOCAL ethrex simulation, real opcodes | 39,488 | ACCEPTED | UNKNOWN |
+| HashAccount, XMSS h=10 (Profile B) on ethrex | 2,500 | 812,737 | 812,737 | LOCAL ethrex simulation, real opcodes incl. 20,000 keyed-nonce charge (1 sample) | 40,000 | REFUSED | UNKNOWN |
 
 Per-phase gas: [results/gas.md](results/gas.md). Differential test: [results/differential_10000.txt](results/differential_10000.txt).
 <!-- results:end -->
@@ -79,21 +79,20 @@ LOCAL ethrex `eip8141-tracer` + local sidecar, not the public devnet. The first 
 | experiment | ethrex simulation (per frame) | sidecar verdict | file |
 |---|---|---|---|
 | banned | frame 0: ok, 20,111 gas; frame 1: failed, 33,000 gas | REFUSED: payer uses banned opcode: TIMESTAMP | `probe-banned.json` |
-| bigsig | frame 0: ok, 82,963 gas; frame 1: ok, 3,000 gas | ACCEPTED into the sidecar mempool (0xe0e1b017fc3ec1aa...) | `probe-bigsig.json` |
+| bigsig | frame 0: ok, 90,383 gas; frame 1: ok, 3,000 gas | ACCEPTED into the sidecar mempool (0x310431520e3ff14f...) | `probe-bigsig.json` |
 | control-legacy | frame 0: ok, 107 gas; frame 1: failed, 33,000 gas | ACCEPTED into the sidecar mempool (0x320d01892626a86f...) | `probe-control-legacy.json` |
 | control | frame 0: ok, 20,107 gas; frame 1: failed, 33,000 gas | ACCEPTED into the sidecar mempool (0xa790c19500db8b04...) | `probe-control.json` |
-| deploy | frame 0: ok, 28,853 gas; frame 1: ok, 85,956 gas; frame 2: ok, 3,000 gas | REFUSED: validation prefix execution gas sum 492649 + signature-verification cost 100 = 492749 exceeds MAX_VERIFY_GAS 100000 | `probe-deploy-last.json` |
-| deploy | frame 0: ok, 28,853 gas; frame 1: ok, 90,647 gas; frame 2: ok, 3,000 gas | REFUSED: validation prefix execution gas sum 495026 + signature-verification cost 100 = 495126 exceeds MAX_VERIFY_GAS 100000 | `probe-deploy.json` |
-| Profile A payment (keyed nonce) | frame 0: ok, 86,878 gas; frame 1: ok, 3,000 gas | ACCEPTED into the sidecar mempool (0x678d67ca7e5f62fc...) | `send-2026-10-25T06-14-46.011Z.json` |
-| Profile A payment (legacy nonce) | frame 0: ok, 64,475 gas; frame 1: ok, 3,000 gas | ACCEPTED into the sidecar mempool (0x1735d715e86cb06b...) | `send-2026-10-25T06-15-05.222Z.json` |
-| Profile B payment | frame 0: ok, 675,712 gas; frame 1: ok, 3,000 gas | REFUSED: validation prefix execution gas sum 900000 + signature-verification cost 100 = 900100 exceeds MAX_VERIFY_GAS 100000 | `send-b-2026-10-25T06-15-05.414Z.json` |
+| deploy | frame 0: ok, 28,853 gas; frame 1: ok, 87,276 gas; frame 2: ok, 3,000 gas | REFUSED: validation prefix execution gas sum 495087 + signature-verification cost 100 = 495187 exceeds MAX_VERIFY_GAS 100000 | `probe-deploy.json` |
+| Profile A payment (keyed nonce) | frame 0: ok, 86,718 gas; frame 1: ok, 3,000 gas | ACCEPTED into the sidecar mempool (0xef2f2b6dc68315ef...) | `send-2026-11-12T12-53-23.212Z.json` |
+| Profile A payment (legacy nonce) | frame 0: ok, 67,673 gas; frame 1: ok, 3,000 gas | ACCEPTED into the sidecar mempool (0xa85c35179df1eb6e...) | `send-2026-11-12T12-53-26.711Z.json` |
+| Profile B payment | frame 0: ok, 812,737 gas; frame 1: ok, 3,000 gas | REFUSED: validation prefix execution gas sum 900000 + signature-verification cost 100 = 900100 exceeds MAX_VERIFY_GAS 100000 | `send-b-2026-11-12T12-53-26.754Z.json` |
 
 Real VERIFY frame gas on ethrex (simulation, high limit, each sample a fresh leaf):
 
 | frame | samples | min | mean | max | file |
 |---|---|---|---|---|---|
-| Profile A VERIFY frame, keyed nonce | 48 | 80,452 | 89,156 | 96,114 | `calibration_keyed.json` |
-| Profile A VERIFY frame, legacy nonce | 48 | 62,806 | 68,829 | 74,942 | `calibration_legacy.json` |
+| Profile A VERIFY frame, keyed nonce | 48 | 81,790 | 88,797 | 95,356 | `calibration_keyed.json` |
+| Profile A VERIFY frame, legacy nonce | 48 | 62,095 | 67,961 | 76,294 | `calibration_legacy.json` |
 
 Inclusion on the local chain (blocks built by scripts/local_blocks.py through the Engine API):
 
@@ -101,15 +100,15 @@ Inclusion on the local chain (blocks built by scripts/local_blocks.py through th
 |---|---|---|---|---|---|---|---|
 | Profile A, keyed nonce | leaf 50 | block 2, status 0x1 | key sequence 0 -> key sequence 1 | node: Invalid Transaction: Nonce mismatch: expected 1, got 0; sidecar: Invalid Transaction: Nonce mismatch: expected 1, got 0 | validation frame 0: reverted | refused: leaf 50 is already used or pending; refusing to sign; next leaf 51 | `inclusion-keyed.json` |
 | Profile A, legacy nonce | leaf 1 | block 3, status 0x1 | account nonce 1 -> account nonce 2 | node: Invalid Transaction: Nonce mismatch: expected 2, got 1; sidecar: Invalid Transaction: Nonce mismatch: expected 2, got 1 | validation frame 0: reverted | refused: leaf 1 is already used or pending; refusing to sign; next leaf 2 | `inclusion-legacy.json` |
-| Profile B, node budget raised to 1,000,000 (no sidecar) | leaf 1 | block 2, status 0x1, VERIFY 706,172 gas | slot 0 -> 1 | n/a | n/a | n/a | `inclusion-xmss-raised-node-budget.json` |
-| Profile B through the PATCHED sidecar (budget 1,000,000, precompiles listed; docs/RULE_FINDINGS.md) | leaf 3 | accepted by the sidecar, relayed, block 2, status 0x1, VERIFY 812,757 gas | slot 0 -> 1 | n/a | n/a | n/a | `inclusion-xmss-patched-sidecar.json` |
+| Profile B, node budget raised to 1,000,000 (no sidecar) | leaf 1 | block 2, status 0x1, VERIFY 782,297 gas | slot 0 -> 1 | n/a | n/a | n/a | `inclusion-xmss-raised-node-budget.json` |
+| Profile B through the PATCHED sidecar (budget 1,000,000, precompiles listed; docs/RULE_FINDINGS.md) | leaf 3 | accepted by the sidecar, relayed, block 2, status 0x1, VERIFY 736,632 gas | slot 0 -> 1 | n/a | n/a | n/a | `inclusion-xmss-patched-sidecar.json` |
 | Profile B, default node budget 100,000 (no sidecar) | leaf 2 | refused at submission: Invalid params: Frame transaction prefix gas budget (frames + sig cost) exceeds MAX_VERIFY_GAS | n/a | n/a | n/a | n/a | `node-xmss-default-budget.json` |
 
 Key rotation on the local chain (`rotation/summary.json`):
 
-- Rotation signed with epoch-0 leaf 52: block 2, status 0x1; last epoch now 1; slot 1 holds the new tree's commitment: True.
-- Payment with the epoch-1 key (leaf 1): block 3, status 0x1, VERIFY 86,928 gas.
-- Payment with an unregistered epoch-2 key: node Invalid Transaction: Invalid frame transaction: VERIFY frame 0 (target 0xd90ae39ed1162b427e4a50fe40a731742e483321, 1727 bytes of code) failed: RevertOpcode; sidecar: validation frame 0: reverted.
+- Rotation signed with epoch-0 leaf 51: block 2, status 0x1; last epoch now 1; slot 1 holds the new tree's commitment: True.
+- Payment with the epoch-1 key (leaf 0): block 3, status 0x1, VERIFY 90,240 gas.
+- Payment with an unregistered epoch-2 key: node Invalid Transaction: Invalid frame transaction: VERIFY frame 0 (target 0xcfec10f694cbdb7866de1906c99e365f5ec81193, 1727 bytes of code) failed: RevertOpcode; sidecar: validation frame 0: reverted.
 
 Deploy + self_verify in one transaction: the deploy frame needs between 2,739,746 and 2,740,417 state gas (1,727 runtime bytes x 1,530 = 2,642,310); the public cap is 500,000: deploy + self_verify cannot pass the public state-gas cap (`deploy_state.json`).
 
@@ -139,7 +138,7 @@ Attack view: [results/attack.md](results/attack.md) and the page `results/attack
 - No fee bump: replacing a transaction would need a second signature on the same leaf. The signer sets a generous `max_fee` instead.
 - Not protected: legacy EOAs and their funds; builder and mempool visibility of plaintext transactions; quantum risk to consensus, ZK systems and other contracts; lost-key recovery. EIP-8141 itself "does not solve post-quantum security" (roadmap page, not re-read).
 - Key rotation adds the next tree; it does not revoke earlier ones (they stay limited by their spent nonces). If a secret seed leaks, move funds to a new account.
-- Keyed mode's largest measured VERIFY frame is 96,114 gas (`results/local/calibration_keyed.json`), close to the 100,000 cap; a rare costly message would not fit (the signer refuses it). Legacy mode has more margin but is strictly sequential.
+- Keyed mode's largest measured VERIFY frame is 95,356 gas (`results/local/calibration_keyed.json`), close to the 100,000 cap; a rare costly message would not fit (the signer refuses it). Legacy mode's largest is 76,294 gas and is strictly sequential.
 - The account must be deployed in an earlier transaction: deploying it inside the frame needs about 2.74M state gas (`results/local/deploy_state.json`), over the 500,000 public cap.
 - Profile B may have no admission path today: the sidecar code we read caps validation at 100,000 gas for every transaction.
 - Local-chain results come from our own ethrex node, sidecar and block driver; they are not public-devnet admissions.

@@ -19,7 +19,7 @@ The contracts and the nonce tag still say Lamport. That is the one-time signatur
 - There is no ECDSA owner. Authorization is the hash-based signature alone. A flaw in that verifier is a flaw in the only authorization path. Quip keeps an ECDSA signature as a second check.
 - On the frame-transaction account, after inclusion the chain spends the leaf. Keyed mode binds leaf `i` to nonce key `LAMP + (epoch << 16) + i` at sequence 0. Local inclusion runs recorded the node refusing a second use (`results/local/inclusion-keyed.json`). Before broadcast, the signer still has to refuse a second signature: the journal is written before the signature is returned (`docs/SECURITY.md`).
 - Rotation adds the next tree of 1,024 leaves and needs a live leaf. There is no stateless recovery path.
-- Profile A is measured against the draft 100,000-gas public cap. The largest keyed VERIFY frame on local ethrex is 96,114 gas. The signer refuses a message whose step count would not fit. Profile B (Skale XMSS, vendored unchanged) is far above the cap.
+- Profile A is measured against the draft 100,000-gas public cap. The largest keyed VERIFY frame on local ethrex is 95,356 gas (12 Nov 2026). The signer refuses a message whose step count would not fit. Profile B (Skale XMSS, vendored unchanged) is far above the cap.
 - EIP-8141 is a draft scheduled for Hegotá. ethereum.org, updated 16 October 2026, expects that upgrade in the second quarter of 2027, with no confirmed date. The FAQ at eip8141.io says it is not on mainnet.
 
 ## Related work

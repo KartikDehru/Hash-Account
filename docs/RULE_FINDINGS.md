@@ -5,7 +5,7 @@ Found while building HashAccount. Each finding names the code or text it comes f
 ## 1. The alt-mempool sidecar applies the public 100,000 budget to every transaction
 - **Where:** forshtat/mempool-workshop-sidecar @fcb4885, `packages/executor/src/services/UserOpValidation/utils/validationPrefix.ts`: `MAX_VERIFY_GAS = BigInt(100_000)` is a constant used by `validateStructuralRules` (explorer rule "structure"). It does not depend on staking or reputation.
 - **Effect:** a transaction that needs more validation gas, such as a post-quantum signature check, is refused by the alternative mempool for the same reason as the public mempool. The alternative mempool is the path described for validation above 100,000 gas. The sidecar we read applies 100,000 to every transaction.
-- **Evidence (LOCAL):** Profile B (XMSS, VERIFY 675,712 to 812,757 gas) is refused with "validation prefix execution gas sum ... exceeds MAX_VERIFY_GAS 100000" (`results/local/send-b-*.json`).
+- **Evidence (LOCAL):** Profile B (XMSS, VERIFY 736,632 to 812,737 gas on the 12 Nov 2026 runs) is refused with "validation prefix execution gas sum ... exceeds MAX_VERIFY_GAS 100000" (`results/local/send-b-*.json`).
 - **Proposed fix:** make the budget a setting of the alternative mempool, keeping 100,000 as the default. Our 26-line patch: `patches/sidecar-configurable-verify-budget.patch` (`SKANDHA_MAX_VERIFY_GAS`; values below 100,000 are rejected). A fuller fix would tie a larger budget to stake, in the spirit of ERC-7562.
 - **Evidence the fix works (LOCAL + PATCHED):** with the patch and fix 2 below, the sidecar accepts Profile B, relays it, and it is included (status 1, its nonce key consumed): `results/local/inclusion-xmss-patched-sidecar.json`.
 
@@ -18,7 +18,7 @@ Found while building HashAccount. Each finding names the code or text it comes f
 ## 3. The keyed-nonce charge counts against the validation budget
 - **Where:** EIP-8250 (`KEYED_NONCE_ACCESS_COST = COLD_STORAGE_ACCESS + STORAGE_WRITE` per key) as implemented by ethrex: the charge lands in the execution gas of the frame that approves payment, which is a VERIFY frame.
 - **Effect:** each keyed transaction loses 20,000 of the 100,000 public budget to protocol bookkeeping, which the account cannot avoid or control. Single-use keys (nullifiers, one-time signature leaves) are the use case EIP-8250 itself names.
-- **Evidence (LOCAL):** the same one-line account uses 107 gas in VERIFY with the legacy nonce and 20,107 with a keyed nonce (`results/local/probe-control*.json`). Lamport's keyed VERIFY frame peaks at 96,114 against 74,942 in legacy mode (`results/local/calibration_*.json`).
+- **Evidence (LOCAL):** the same one-line account uses 107 gas in VERIFY with the legacy nonce and 20,107 with a keyed nonce (`results/local/probe-control*.json`). HashAccount's keyed VERIFY frame peaks at 95,356 against 76,294 in legacy mode (`results/local/calibration_*.json`, 12 Nov 2026).
 - **Proposed fix:** count the keyed-nonce access cost as intrinsic cost, like the signature verification cost, and leave it out of the sum checked against MAX_VERIFY_GAS (it is fixed and known before simulation). Alternatively raise the budget by `len(nonce_keys) * KEYED_NONCE_ACCESS_COST`.
 
 ## 4. `deploy + self_verify` cannot carry a realistic account under the state-gas cap

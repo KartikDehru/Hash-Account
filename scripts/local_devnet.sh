@@ -17,6 +17,9 @@ ETHREX_BIN="${ETHREX_BIN:-$ETHREX_REPO/target/release/ethrex}"
 SIDECAR_DIR="${SIDECAR_DIR:-}"
 MAX_VERIFY_GAS="${MAX_VERIFY_GAS:-100000}"
 mkdir -p "$L"
+# macOS has no setsid. nohup keeps the node alive after this script exits.
+if command -v setsid >/dev/null 2>&1; then DETACH=(setsid); else DETACH=(nohup); fi
+if [ ! -s "$L/jwt.hex" ]; then openssl rand -hex 32 > "$L/jwt.hex"; fi
 
 cli() { (cd "$ROOT/signer" && bun run src/cli.ts "$@"); }
 
@@ -70,7 +73,7 @@ PY
     ;;
   up)
     rm -rf "$L/ethrex-data"
-    setsid "$ETHREX_BIN" --network "$L/genesis.json" --datadir "$L/ethrex-data" \
+    "${DETACH[@]}" "$ETHREX_BIN" --network "$L/genesis.json" --datadir "$L/ethrex-data" \
       --http.addr 127.0.0.1 --http.port 8545 --http.api eth,net,web3,ethrex,debug \
       --authrpc.port 8551 --authrpc.jwtsecret "$L/jwt.hex" --syncmode full --p2p.disabled --mempool.max-verify-gas "$MAX_VERIFY_GAS" \
       < /dev/null > "$L/ethrex.log" 2>&1 & echo $! > "$L/ethrex.pid"
@@ -88,7 +91,7 @@ PY
         --arg k "$(head -1 "$ETHREX_REPO/fixtures/keys/private_keys_l1.txt")" > "$L/sidecar.json"
       rm -rf "$L/skandha-db"
       pushd "$SIDECAR_DIR" > /dev/null
-      setsid ./skandha standalone --configFile "$L/sidecar.json" --dataDir "$L/skandha-db" \
+      "${DETACH[@]}" ./skandha standalone --configFile "$L/sidecar.json" --dataDir "$L/skandha-db" \
         --executor.bundlingMode manual < /dev/null > "$L/sidecar.log" 2>&1 &
       echo $! > "$L/sidecar.pid"
       popd > /dev/null
