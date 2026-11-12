@@ -1,0 +1,26 @@
+diff --git a/packages/executor/src/services/UserOpValidation/utils/validationPrefix.ts b/packages/executor/src/services/UserOpValidation/utils/validationPrefix.ts
+index 8a34f88..da6f170 100644
+--- a/packages/executor/src/services/UserOpValidation/utils/validationPrefix.ts
++++ b/packages/executor/src/services/UserOpValidation/utils/validationPrefix.ts
+@@ -7,7 +7,20 @@ import { getAddress } from "viem";
+  * "Maximum amount of gas a node should expend validating signatures and
+  * simulating the validation prefix."
+  */
+-export const MAX_VERIFY_GAS = BigInt(100_000);
++export const PUBLIC_MAX_VERIFY_GAS = BigInt(100_000);
++
++/**
++ * Lamport patch: the alternative mempool may admit validation budgets above the public
++ * 100,000 (the alternative mempool exists for verification budgets above 100k gas).
++ * SKANDHA_MAX_VERIFY_GAS raises this node's budget; unset, behaviour is unchanged.
++ */
++export const MAX_VERIFY_GAS = (() => {
++  const raw = process.env.SKANDHA_MAX_VERIFY_GAS;
++  if (!raw) return PUBLIC_MAX_VERIFY_GAS;
++  const v = BigInt(raw);
++  if (v < PUBLIC_MAX_VERIFY_GAS) throw new Error("SKANDHA_MAX_VERIFY_GAS must be at least 100000");
++  return v;
++})();
+ 
+ /**
+  * EIP-8141's intrinsic cost per signature, by scheme - not stated in
