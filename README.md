@@ -16,8 +16,8 @@ This is active research. Frame transactions are not live yet, and the account is
 
 ## Try it
 ```sh
-./scripts/setup.sh                       # Foundry 1.5.1, solc 0.8.37, Python venv (user-local)
-export PATH="$HOME/.foundry/bin:$PATH"
+./scripts/setup.sh                       # Foundry 1.5.1 in .local/, solc 0.8.37, Python 3.10+ venv
+export PATH="$PWD/.local/foundry-1.5.1:$PATH"   # only needed to run forge by hand
 (cd signer && bun install)
 ./scripts/test_all.sh                    # all tests, 1,000 differential cases, regenerates results/
 FULL=1 ./scripts/test_all.sh             # same with 10,000 differential cases (about 6 minutes)

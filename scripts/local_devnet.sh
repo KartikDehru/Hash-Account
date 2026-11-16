@@ -10,7 +10,7 @@
 #          producer at 9aa3645) on :8545 and the sidecar on :14337 (manual bundling)
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-export PATH="$HOME/.foundry/bin:$PATH"
+export PATH="$ROOT/.local/foundry-1.5.1:$HOME/.foundry/bin:$PATH"
 L="$ROOT/.local"
 ETHREX_REPO="${ETHREX_REPO:?set ETHREX_REPO to a forshtat/ethrex eip8141-tracer checkout}"
 ETHREX_BIN="${ETHREX_BIN:-$ETHREX_REPO/target/release/ethrex}"

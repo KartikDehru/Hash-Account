@@ -4,7 +4,7 @@
 #   FULL=1 ./scripts/test_all.sh   full: 10,000 differential cases (about 6 minutes)
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-export PATH="$HOME/.foundry/bin:$PATH"
+export PATH="$ROOT/.local/foundry-1.5.1:$HOME/.foundry/bin:$PATH"
 PY="$ROOT/.venv/bin/python"
 cd "$ROOT"
 

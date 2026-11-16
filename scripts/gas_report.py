@@ -26,7 +26,8 @@ def rules() -> dict:
 
 
 def run_forge() -> None:
-    env = dict(os.environ, PATH=os.path.expanduser("~/.foundry/bin") + os.pathsep + os.environ["PATH"])
+    pinned = os.path.join(ROOT, ".local", "foundry-1.5.1")
+    env = dict(os.environ, PATH=os.pathsep.join([pinned, os.path.expanduser("~/.foundry/bin"), os.environ["PATH"]]))
     subprocess.run(
         ["forge", "test", "--root", os.path.join(ROOT, "contracts"), "--match-test", "test_gas_report", "-q"],
         check=True, env=env, cwd=os.path.join(ROOT, "contracts"),

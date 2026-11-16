@@ -7,8 +7,8 @@ Use test keys only. Devnet faucet funds are worthless and a devnet can reset.
 ## 0. Prerequisites
 From this repository:
 ```sh
-./scripts/setup.sh                 # Foundry, solc 0.8.37, Python venv
-export PATH="$HOME/.foundry/bin:$PATH"
+./scripts/setup.sh                 # Foundry 1.5.1 in .local/, solc 0.8.37, Python 3.10+ venv
+export PATH="$PWD/.local/foundry-1.5.1:$PATH"   # cast and forge for the steps below
 (cd signer && bun install)
 ./scripts/test_all.sh              # everything must pass before touching the devnet
 ```
