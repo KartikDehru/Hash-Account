@@ -58,7 +58,7 @@ svg { width:100%; height:auto; } code { font-size:13px; }
 <text x="342" y="232" text-anchor="middle" class="muted">attempts (bins start at this value)</text>
 </svg>
 <h2 style="font-size:17px">So reuse is refused twice</h2>
-<p>The chain accepts leaf <i>i</i> only with nonce key <code>LAMP+i</code> at sequence 0, which can happen once. The signer reads that state and keeps a journal:</p>
+<p>The chain accepts leaf <i>i</i> of epoch <i>e</i> only with nonce key <code>LAMP + (e &lt;&lt; 16) + i</code> at sequence 0, which can happen once. The signer reads that state and keeps a journal:</p>
 <ul><li>signed payment 1 with leaf 0</li>
 <li>chain: nonce key of leaf 0 now at sequence 1 (stub)</li>
 <li>refused: leaf 0 is already used or pending; refusing to sign</li>

@@ -1,4 +1,4 @@
 {
   "note": "test build with FrameContextMock; includes mock STATICCALL overhead; not the real frame gas",
-  "verifyFrameMockGas": 93150
+  "verifyFrameMockGas": 77566
 }

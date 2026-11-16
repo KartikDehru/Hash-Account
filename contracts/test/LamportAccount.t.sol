@@ -15,7 +15,7 @@ contract LamportAccountTest is Test {
     uint256 internal constant LEAF_KEY_BASE = uint256(0x4c414d50) << 224;
     bytes32 internal constant APPROVED_3 = bytes32(uint256(0xaa) << 248 | 3);
     // Regression bound for the bench build's mean VERIFY gas. Raise only with a recorded reason.
-    uint256 internal constant ACCOUNT_BENCH_MEAN_LIMIT = 74_000;
+    uint256 internal constant ACCOUNT_BENCH_MEAN_LIMIT = 58_000;
 
     FrameContextMock internal ctx;
     address internal account;

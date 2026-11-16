@@ -19,7 +19,7 @@ library LamportVerifier {
     uint256 internal constant TYPE_LEAF_PK = 2;
     uint256 internal constant TYPE_TREE = 3;
     uint256 internal constant TYPE_MSG = 4;
-    uint256 internal constant STEP = 1 << 88; // one step in the address word's step field
+    // Step 0 of a chain hashes seed || ADRS || x. Later steps hash the 32-byte value alone.
 
     /// @return len1 message digits, len2 checksum digits (0, 0 for an unsupported logW)
     function lengths(uint256 logW) internal pure returns (uint256 len1, uint256 len2) {
@@ -103,47 +103,53 @@ library LamportVerifier {
                 sum := add(sum, d)
                 let n := sub(mask, d)
                 let x := mload(add(values, off))
-                let ad := or(or(adrsLeaf, shl(115, off)), shl(88, d))
-                // n chain steps, unrolled in blocks of 16, 8, 4, 2 and 1 (about 40% cheaper than a loop)
+                // Step 0 binds the seed, the leaf and the chain index. The remaining steps are keccak256(x).
+                if and(n, iszero(d)) {
+                    mstore(adrsSlot, or(adrsLeaf, shl(115, off)))
+                    mstore(xSlot, x)
+                    x := keccak256(s, 96)
+                    n := sub(n, 1)
+                }
+                // n plain steps, unrolled in blocks of 16, 8, 4, 2 and 1 (about 40% cheaper than a loop)
                 for { } gt(n, 15) { n := sub(n, 16) } {
-                    mstore(adrsSlot, ad) mstore(xSlot, x) x := keccak256(s, 96) ad := add(ad, STEP)
-                    mstore(adrsSlot, ad) mstore(xSlot, x) x := keccak256(s, 96) ad := add(ad, STEP)
-                    mstore(adrsSlot, ad) mstore(xSlot, x) x := keccak256(s, 96) ad := add(ad, STEP)
-                    mstore(adrsSlot, ad) mstore(xSlot, x) x := keccak256(s, 96) ad := add(ad, STEP)
-                    mstore(adrsSlot, ad) mstore(xSlot, x) x := keccak256(s, 96) ad := add(ad, STEP)
-                    mstore(adrsSlot, ad) mstore(xSlot, x) x := keccak256(s, 96) ad := add(ad, STEP)
-                    mstore(adrsSlot, ad) mstore(xSlot, x) x := keccak256(s, 96) ad := add(ad, STEP)
-                    mstore(adrsSlot, ad) mstore(xSlot, x) x := keccak256(s, 96) ad := add(ad, STEP)
-                    mstore(adrsSlot, ad) mstore(xSlot, x) x := keccak256(s, 96) ad := add(ad, STEP)
-                    mstore(adrsSlot, ad) mstore(xSlot, x) x := keccak256(s, 96) ad := add(ad, STEP)
-                    mstore(adrsSlot, ad) mstore(xSlot, x) x := keccak256(s, 96) ad := add(ad, STEP)
-                    mstore(adrsSlot, ad) mstore(xSlot, x) x := keccak256(s, 96) ad := add(ad, STEP)
-                    mstore(adrsSlot, ad) mstore(xSlot, x) x := keccak256(s, 96) ad := add(ad, STEP)
-                    mstore(adrsSlot, ad) mstore(xSlot, x) x := keccak256(s, 96) ad := add(ad, STEP)
-                    mstore(adrsSlot, ad) mstore(xSlot, x) x := keccak256(s, 96) ad := add(ad, STEP)
-                    mstore(adrsSlot, ad) mstore(xSlot, x) x := keccak256(s, 96) ad := add(ad, STEP)
+                    mstore(xSlot, x) x := keccak256(xSlot, 32)
+                    mstore(xSlot, x) x := keccak256(xSlot, 32)
+                    mstore(xSlot, x) x := keccak256(xSlot, 32)
+                    mstore(xSlot, x) x := keccak256(xSlot, 32)
+                    mstore(xSlot, x) x := keccak256(xSlot, 32)
+                    mstore(xSlot, x) x := keccak256(xSlot, 32)
+                    mstore(xSlot, x) x := keccak256(xSlot, 32)
+                    mstore(xSlot, x) x := keccak256(xSlot, 32)
+                    mstore(xSlot, x) x := keccak256(xSlot, 32)
+                    mstore(xSlot, x) x := keccak256(xSlot, 32)
+                    mstore(xSlot, x) x := keccak256(xSlot, 32)
+                    mstore(xSlot, x) x := keccak256(xSlot, 32)
+                    mstore(xSlot, x) x := keccak256(xSlot, 32)
+                    mstore(xSlot, x) x := keccak256(xSlot, 32)
+                    mstore(xSlot, x) x := keccak256(xSlot, 32)
+                    mstore(xSlot, x) x := keccak256(xSlot, 32)
                 }
                 if and(n, 8) {
-                    mstore(adrsSlot, ad) mstore(xSlot, x) x := keccak256(s, 96) ad := add(ad, STEP)
-                    mstore(adrsSlot, ad) mstore(xSlot, x) x := keccak256(s, 96) ad := add(ad, STEP)
-                    mstore(adrsSlot, ad) mstore(xSlot, x) x := keccak256(s, 96) ad := add(ad, STEP)
-                    mstore(adrsSlot, ad) mstore(xSlot, x) x := keccak256(s, 96) ad := add(ad, STEP)
-                    mstore(adrsSlot, ad) mstore(xSlot, x) x := keccak256(s, 96) ad := add(ad, STEP)
-                    mstore(adrsSlot, ad) mstore(xSlot, x) x := keccak256(s, 96) ad := add(ad, STEP)
-                    mstore(adrsSlot, ad) mstore(xSlot, x) x := keccak256(s, 96) ad := add(ad, STEP)
-                    mstore(adrsSlot, ad) mstore(xSlot, x) x := keccak256(s, 96) ad := add(ad, STEP)
+                    mstore(xSlot, x) x := keccak256(xSlot, 32)
+                    mstore(xSlot, x) x := keccak256(xSlot, 32)
+                    mstore(xSlot, x) x := keccak256(xSlot, 32)
+                    mstore(xSlot, x) x := keccak256(xSlot, 32)
+                    mstore(xSlot, x) x := keccak256(xSlot, 32)
+                    mstore(xSlot, x) x := keccak256(xSlot, 32)
+                    mstore(xSlot, x) x := keccak256(xSlot, 32)
+                    mstore(xSlot, x) x := keccak256(xSlot, 32)
                 }
                 if and(n, 4) {
-                    mstore(adrsSlot, ad) mstore(xSlot, x) x := keccak256(s, 96) ad := add(ad, STEP)
-                    mstore(adrsSlot, ad) mstore(xSlot, x) x := keccak256(s, 96) ad := add(ad, STEP)
-                    mstore(adrsSlot, ad) mstore(xSlot, x) x := keccak256(s, 96) ad := add(ad, STEP)
-                    mstore(adrsSlot, ad) mstore(xSlot, x) x := keccak256(s, 96) ad := add(ad, STEP)
+                    mstore(xSlot, x) x := keccak256(xSlot, 32)
+                    mstore(xSlot, x) x := keccak256(xSlot, 32)
+                    mstore(xSlot, x) x := keccak256(xSlot, 32)
+                    mstore(xSlot, x) x := keccak256(xSlot, 32)
                 }
                 if and(n, 2) {
-                    mstore(adrsSlot, ad) mstore(xSlot, x) x := keccak256(s, 96) ad := add(ad, STEP)
-                    mstore(adrsSlot, ad) mstore(xSlot, x) x := keccak256(s, 96) ad := add(ad, STEP)
+                    mstore(xSlot, x) x := keccak256(xSlot, 32)
+                    mstore(xSlot, x) x := keccak256(xSlot, 32)
                 }
-                if and(n, 1) { mstore(adrsSlot, ad) mstore(xSlot, x) x := keccak256(s, 96) ad := add(ad, STEP) }
+                if and(n, 1) { mstore(xSlot, x) x := keccak256(xSlot, 32) }
                 mstore(add(ends, off), x)
             }
 
@@ -155,47 +161,53 @@ library LamportVerifier {
                 dg := shl(logW, dg)
                 let n := sub(mask, d)
                 let x := mload(add(values, off))
-                let ad := or(or(adrsLeaf, shl(115, off)), shl(88, d))
-                // n chain steps, unrolled in blocks of 16, 8, 4, 2 and 1 (about 40% cheaper than a loop)
+                // Step 0 binds the seed, the leaf and the chain index. The remaining steps are keccak256(x).
+                if and(n, iszero(d)) {
+                    mstore(adrsSlot, or(adrsLeaf, shl(115, off)))
+                    mstore(xSlot, x)
+                    x := keccak256(s, 96)
+                    n := sub(n, 1)
+                }
+                // n plain steps, unrolled in blocks of 16, 8, 4, 2 and 1 (about 40% cheaper than a loop)
                 for { } gt(n, 15) { n := sub(n, 16) } {
-                    mstore(adrsSlot, ad) mstore(xSlot, x) x := keccak256(s, 96) ad := add(ad, STEP)
-                    mstore(adrsSlot, ad) mstore(xSlot, x) x := keccak256(s, 96) ad := add(ad, STEP)
-                    mstore(adrsSlot, ad) mstore(xSlot, x) x := keccak256(s, 96) ad := add(ad, STEP)
-                    mstore(adrsSlot, ad) mstore(xSlot, x) x := keccak256(s, 96) ad := add(ad, STEP)
-                    mstore(adrsSlot, ad) mstore(xSlot, x) x := keccak256(s, 96) ad := add(ad, STEP)
-                    mstore(adrsSlot, ad) mstore(xSlot, x) x := keccak256(s, 96) ad := add(ad, STEP)
-                    mstore(adrsSlot, ad) mstore(xSlot, x) x := keccak256(s, 96) ad := add(ad, STEP)
-                    mstore(adrsSlot, ad) mstore(xSlot, x) x := keccak256(s, 96) ad := add(ad, STEP)
-                    mstore(adrsSlot, ad) mstore(xSlot, x) x := keccak256(s, 96) ad := add(ad, STEP)
-                    mstore(adrsSlot, ad) mstore(xSlot, x) x := keccak256(s, 96) ad := add(ad, STEP)
-                    mstore(adrsSlot, ad) mstore(xSlot, x) x := keccak256(s, 96) ad := add(ad, STEP)
-                    mstore(adrsSlot, ad) mstore(xSlot, x) x := keccak256(s, 96) ad := add(ad, STEP)
-                    mstore(adrsSlot, ad) mstore(xSlot, x) x := keccak256(s, 96) ad := add(ad, STEP)
-                    mstore(adrsSlot, ad) mstore(xSlot, x) x := keccak256(s, 96) ad := add(ad, STEP)
-                    mstore(adrsSlot, ad) mstore(xSlot, x) x := keccak256(s, 96) ad := add(ad, STEP)
-                    mstore(adrsSlot, ad) mstore(xSlot, x) x := keccak256(s, 96) ad := add(ad, STEP)
+                    mstore(xSlot, x) x := keccak256(xSlot, 32)
+                    mstore(xSlot, x) x := keccak256(xSlot, 32)
+                    mstore(xSlot, x) x := keccak256(xSlot, 32)
+                    mstore(xSlot, x) x := keccak256(xSlot, 32)
+                    mstore(xSlot, x) x := keccak256(xSlot, 32)
+                    mstore(xSlot, x) x := keccak256(xSlot, 32)
+                    mstore(xSlot, x) x := keccak256(xSlot, 32)
+                    mstore(xSlot, x) x := keccak256(xSlot, 32)
+                    mstore(xSlot, x) x := keccak256(xSlot, 32)
+                    mstore(xSlot, x) x := keccak256(xSlot, 32)
+                    mstore(xSlot, x) x := keccak256(xSlot, 32)
+                    mstore(xSlot, x) x := keccak256(xSlot, 32)
+                    mstore(xSlot, x) x := keccak256(xSlot, 32)
+                    mstore(xSlot, x) x := keccak256(xSlot, 32)
+                    mstore(xSlot, x) x := keccak256(xSlot, 32)
+                    mstore(xSlot, x) x := keccak256(xSlot, 32)
                 }
                 if and(n, 8) {
-                    mstore(adrsSlot, ad) mstore(xSlot, x) x := keccak256(s, 96) ad := add(ad, STEP)
-                    mstore(adrsSlot, ad) mstore(xSlot, x) x := keccak256(s, 96) ad := add(ad, STEP)
-                    mstore(adrsSlot, ad) mstore(xSlot, x) x := keccak256(s, 96) ad := add(ad, STEP)
-                    mstore(adrsSlot, ad) mstore(xSlot, x) x := keccak256(s, 96) ad := add(ad, STEP)
-                    mstore(adrsSlot, ad) mstore(xSlot, x) x := keccak256(s, 96) ad := add(ad, STEP)
-                    mstore(adrsSlot, ad) mstore(xSlot, x) x := keccak256(s, 96) ad := add(ad, STEP)
-                    mstore(adrsSlot, ad) mstore(xSlot, x) x := keccak256(s, 96) ad := add(ad, STEP)
-                    mstore(adrsSlot, ad) mstore(xSlot, x) x := keccak256(s, 96) ad := add(ad, STEP)
+                    mstore(xSlot, x) x := keccak256(xSlot, 32)
+                    mstore(xSlot, x) x := keccak256(xSlot, 32)
+                    mstore(xSlot, x) x := keccak256(xSlot, 32)
+                    mstore(xSlot, x) x := keccak256(xSlot, 32)
+                    mstore(xSlot, x) x := keccak256(xSlot, 32)
+                    mstore(xSlot, x) x := keccak256(xSlot, 32)
+                    mstore(xSlot, x) x := keccak256(xSlot, 32)
+                    mstore(xSlot, x) x := keccak256(xSlot, 32)
                 }
                 if and(n, 4) {
-                    mstore(adrsSlot, ad) mstore(xSlot, x) x := keccak256(s, 96) ad := add(ad, STEP)
-                    mstore(adrsSlot, ad) mstore(xSlot, x) x := keccak256(s, 96) ad := add(ad, STEP)
-                    mstore(adrsSlot, ad) mstore(xSlot, x) x := keccak256(s, 96) ad := add(ad, STEP)
-                    mstore(adrsSlot, ad) mstore(xSlot, x) x := keccak256(s, 96) ad := add(ad, STEP)
+                    mstore(xSlot, x) x := keccak256(xSlot, 32)
+                    mstore(xSlot, x) x := keccak256(xSlot, 32)
+                    mstore(xSlot, x) x := keccak256(xSlot, 32)
+                    mstore(xSlot, x) x := keccak256(xSlot, 32)
                 }
                 if and(n, 2) {
-                    mstore(adrsSlot, ad) mstore(xSlot, x) x := keccak256(s, 96) ad := add(ad, STEP)
-                    mstore(adrsSlot, ad) mstore(xSlot, x) x := keccak256(s, 96) ad := add(ad, STEP)
+                    mstore(xSlot, x) x := keccak256(xSlot, 32)
+                    mstore(xSlot, x) x := keccak256(xSlot, 32)
                 }
-                if and(n, 1) { mstore(adrsSlot, ad) mstore(xSlot, x) x := keccak256(s, 96) ad := add(ad, STEP) }
+                if and(n, 1) { mstore(xSlot, x) x := keccak256(xSlot, 32) }
                 mstore(add(ends, off), x)
             }
             node := keccak256(buf, add(64, limit))

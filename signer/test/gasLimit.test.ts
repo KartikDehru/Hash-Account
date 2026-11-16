@@ -4,7 +4,7 @@ import { chooseVerifyLimit, fitsPublicCap, limitForSteps } from "../src/gasLimit
 import { lamportPayment, computeSigHash } from "../src/frameTx";
 import { verifySteps, PROFILE_A } from "../src/wots";
 
-const model = { intercept: 26225, perStep: 81.405, maxResidual: 334.6 };
+const model = { intercept: 45891, perStep: 53.319, maxResidual: 324.3 };
 
 test("chosen limit covers the steps of the final signature hash", () => {
   const seed = new Uint8Array(32).fill(9);

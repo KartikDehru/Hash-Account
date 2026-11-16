@@ -134,29 +134,35 @@ object "LamportAccount" {
                     sum := add(sum, d)
                     let n := sub(15, d)
                     let x := mload(add(values, off))
-                    let ad := or(or(adrsLeaf, shl(115, off)), shl(88, d))
-                    // 15 - d chain steps, unrolled in blocks of 8, 4, 2 and 1
+                    // Step 0 binds the seed, the leaf and the chain index. The remaining steps are keccak256(x).
+                    if and(n, iszero(d)) {
+                        mstore(adrsSlot, or(adrsLeaf, shl(115, off)))
+                        mstore(xSlot, x)
+                        x := keccak256(s, 96)
+                        n := sub(n, 1)
+                    }
+                    // plain steps, unrolled in blocks of 8, 4, 2 and 1
                     if and(n, 8) {
-                        mstore(adrsSlot, ad) mstore(xSlot, x) x := keccak256(s, 96) ad := add(ad, 0x10000000000000000000000)
-                        mstore(adrsSlot, ad) mstore(xSlot, x) x := keccak256(s, 96) ad := add(ad, 0x10000000000000000000000)
-                        mstore(adrsSlot, ad) mstore(xSlot, x) x := keccak256(s, 96) ad := add(ad, 0x10000000000000000000000)
-                        mstore(adrsSlot, ad) mstore(xSlot, x) x := keccak256(s, 96) ad := add(ad, 0x10000000000000000000000)
-                        mstore(adrsSlot, ad) mstore(xSlot, x) x := keccak256(s, 96) ad := add(ad, 0x10000000000000000000000)
-                        mstore(adrsSlot, ad) mstore(xSlot, x) x := keccak256(s, 96) ad := add(ad, 0x10000000000000000000000)
-                        mstore(adrsSlot, ad) mstore(xSlot, x) x := keccak256(s, 96) ad := add(ad, 0x10000000000000000000000)
-                        mstore(adrsSlot, ad) mstore(xSlot, x) x := keccak256(s, 96) ad := add(ad, 0x10000000000000000000000)
+                        mstore(xSlot, x) x := keccak256(xSlot, 32)
+                        mstore(xSlot, x) x := keccak256(xSlot, 32)
+                        mstore(xSlot, x) x := keccak256(xSlot, 32)
+                        mstore(xSlot, x) x := keccak256(xSlot, 32)
+                        mstore(xSlot, x) x := keccak256(xSlot, 32)
+                        mstore(xSlot, x) x := keccak256(xSlot, 32)
+                        mstore(xSlot, x) x := keccak256(xSlot, 32)
+                        mstore(xSlot, x) x := keccak256(xSlot, 32)
                     }
                     if and(n, 4) {
-                        mstore(adrsSlot, ad) mstore(xSlot, x) x := keccak256(s, 96) ad := add(ad, 0x10000000000000000000000)
-                        mstore(adrsSlot, ad) mstore(xSlot, x) x := keccak256(s, 96) ad := add(ad, 0x10000000000000000000000)
-                        mstore(adrsSlot, ad) mstore(xSlot, x) x := keccak256(s, 96) ad := add(ad, 0x10000000000000000000000)
-                        mstore(adrsSlot, ad) mstore(xSlot, x) x := keccak256(s, 96) ad := add(ad, 0x10000000000000000000000)
+                        mstore(xSlot, x) x := keccak256(xSlot, 32)
+                        mstore(xSlot, x) x := keccak256(xSlot, 32)
+                        mstore(xSlot, x) x := keccak256(xSlot, 32)
+                        mstore(xSlot, x) x := keccak256(xSlot, 32)
                     }
                     if and(n, 2) {
-                        mstore(adrsSlot, ad) mstore(xSlot, x) x := keccak256(s, 96) ad := add(ad, 0x10000000000000000000000)
-                        mstore(adrsSlot, ad) mstore(xSlot, x) x := keccak256(s, 96) ad := add(ad, 0x10000000000000000000000)
+                        mstore(xSlot, x) x := keccak256(xSlot, 32)
+                        mstore(xSlot, x) x := keccak256(xSlot, 32)
                     }
-                    if and(n, 1) { mstore(adrsSlot, ad) mstore(xSlot, x) x := keccak256(s, 96) ad := add(ad, 0x10000000000000000000000) }
+                    if and(n, 1) { mstore(xSlot, x) x := keccak256(xSlot, 32) }
                     mstore(add(ends, off), x)
                 }
                 // checksum = 960 - sum, three base-16 digits, most significant first
@@ -166,29 +172,35 @@ object "LamportAccount" {
                     dg := shl(4, dg)
                     let n := sub(15, d)
                     let x := mload(add(values, off))
-                    let ad := or(or(adrsLeaf, shl(115, off)), shl(88, d))
-                    // 15 - d chain steps, unrolled in blocks of 8, 4, 2 and 1
+                    // Step 0 binds the seed, the leaf and the chain index. The remaining steps are keccak256(x).
+                    if and(n, iszero(d)) {
+                        mstore(adrsSlot, or(adrsLeaf, shl(115, off)))
+                        mstore(xSlot, x)
+                        x := keccak256(s, 96)
+                        n := sub(n, 1)
+                    }
+                    // plain steps, unrolled in blocks of 8, 4, 2 and 1
                     if and(n, 8) {
-                        mstore(adrsSlot, ad) mstore(xSlot, x) x := keccak256(s, 96) ad := add(ad, 0x10000000000000000000000)
-                        mstore(adrsSlot, ad) mstore(xSlot, x) x := keccak256(s, 96) ad := add(ad, 0x10000000000000000000000)
-                        mstore(adrsSlot, ad) mstore(xSlot, x) x := keccak256(s, 96) ad := add(ad, 0x10000000000000000000000)
-                        mstore(adrsSlot, ad) mstore(xSlot, x) x := keccak256(s, 96) ad := add(ad, 0x10000000000000000000000)
-                        mstore(adrsSlot, ad) mstore(xSlot, x) x := keccak256(s, 96) ad := add(ad, 0x10000000000000000000000)
-                        mstore(adrsSlot, ad) mstore(xSlot, x) x := keccak256(s, 96) ad := add(ad, 0x10000000000000000000000)
-                        mstore(adrsSlot, ad) mstore(xSlot, x) x := keccak256(s, 96) ad := add(ad, 0x10000000000000000000000)
-                        mstore(adrsSlot, ad) mstore(xSlot, x) x := keccak256(s, 96) ad := add(ad, 0x10000000000000000000000)
+                        mstore(xSlot, x) x := keccak256(xSlot, 32)
+                        mstore(xSlot, x) x := keccak256(xSlot, 32)
+                        mstore(xSlot, x) x := keccak256(xSlot, 32)
+                        mstore(xSlot, x) x := keccak256(xSlot, 32)
+                        mstore(xSlot, x) x := keccak256(xSlot, 32)
+                        mstore(xSlot, x) x := keccak256(xSlot, 32)
+                        mstore(xSlot, x) x := keccak256(xSlot, 32)
+                        mstore(xSlot, x) x := keccak256(xSlot, 32)
                     }
                     if and(n, 4) {
-                        mstore(adrsSlot, ad) mstore(xSlot, x) x := keccak256(s, 96) ad := add(ad, 0x10000000000000000000000)
-                        mstore(adrsSlot, ad) mstore(xSlot, x) x := keccak256(s, 96) ad := add(ad, 0x10000000000000000000000)
-                        mstore(adrsSlot, ad) mstore(xSlot, x) x := keccak256(s, 96) ad := add(ad, 0x10000000000000000000000)
-                        mstore(adrsSlot, ad) mstore(xSlot, x) x := keccak256(s, 96) ad := add(ad, 0x10000000000000000000000)
+                        mstore(xSlot, x) x := keccak256(xSlot, 32)
+                        mstore(xSlot, x) x := keccak256(xSlot, 32)
+                        mstore(xSlot, x) x := keccak256(xSlot, 32)
+                        mstore(xSlot, x) x := keccak256(xSlot, 32)
                     }
                     if and(n, 2) {
-                        mstore(adrsSlot, ad) mstore(xSlot, x) x := keccak256(s, 96) ad := add(ad, 0x10000000000000000000000)
-                        mstore(adrsSlot, ad) mstore(xSlot, x) x := keccak256(s, 96) ad := add(ad, 0x10000000000000000000000)
+                        mstore(xSlot, x) x := keccak256(xSlot, 32)
+                        mstore(xSlot, x) x := keccak256(xSlot, 32)
                     }
-                    if and(n, 1) { mstore(adrsSlot, ad) mstore(xSlot, x) x := keccak256(s, 96) ad := add(ad, 0x10000000000000000000000) }
+                    if and(n, 1) { mstore(xSlot, x) x := keccak256(xSlot, 32) }
                     mstore(add(ends, off), x)
                 }
                 let node := keccak256(buf, 2208)

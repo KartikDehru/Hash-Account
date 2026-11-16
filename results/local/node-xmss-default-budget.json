@@ -15,7 +15,7 @@
    "executionStatus": "success",
    "frames": [
     {
-     "gasUsed": "0xbefd9",
+     "gasUsed": "0xc66cb",
      "succeeded": true
     },
     {
@@ -23,9 +23,9 @@
      "succeeded": true
     }
    ],
-   "gasUsed": "0xfafab",
-   "maxCost": "0xd33aa4e65f4800",
-   "payer": "0xf62c0a7a454c24a8b1d31d0f72fceeca1efd51ad",
+   "gasUsed": "0x1026cd",
+   "maxCost": "0xd33cd3b1850800",
+   "payer": "0xad2c28829c30b8968944da67c51ccc02c820527d",
    "prefixShape": "SelfVerify"
   }
  },
@@ -39,7 +39,7 @@
  },
  "block": {
   "number": 1,
-  "hash": "0xd1dee75b472942f084e81b78cdf0f3b43e1f3852961855327a959cdb9389e512",
+  "hash": "0x3609d5d5e2d7b220ef0af7d5995565da87af29f567107bb054fee62847bbdf26",
   "transactions": 0
  },
  "receipt": {

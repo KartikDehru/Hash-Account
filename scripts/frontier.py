@@ -9,9 +9,10 @@ Reads only generated measurements:
 and runs each row through simulator/admit.py. Writes results/frontier.{json,md,svg}.
 
 The admission column uses the largest gas seen in the samples, not a proven worst case.
+The signer uses the fitted model in results/verify_gas_model.json, not that sample maximum.
 Only the w = 16 row is a full account VERIFY frame. Other rows are the verifier library call
-alone; a frame adds context reads and APPROVE, but the hand-written Yul account is cheaper than
-the Solidity library (w = 16: account frame max below library max), so no adjustment is applied.
+alone. The w = 16 account frame and the w = 16 library call are both printed, and no
+adjustment is applied to the library-only rows.
 """
 import json
 import os
@@ -64,7 +65,8 @@ def main() -> None:
             samples = r["samples"]
         rows.append({"name": name, "basis": kind, "signatureBytes": r["signatureBytes"], "chains": r["chains"],
                      "meanGas": mean, "maxGas": mx, "samples": samples,
-                     "dataGasStandard": r["arithmetic"]["signatureDataGasStandard"]})
+                     "dataGasStandard": r["arithmetic"]["signatureDataGasStandard"],
+                     "dataGasFloor": r["arithmetic"]["signatureDataGasFloorTerm"]})
     for h in ("h10", "h20"):
         x = xmss[h]
         mean, mx = int(x["mean"]), int(x["max"])
@@ -72,13 +74,15 @@ def main() -> None:
         rows.append({"name": f"XMSS-SHA2 h={x['height']} (Skale, vendored)",
                      "basis": "measured library call only",
                      "signatureBytes": sig, "chains": 67, "meanGas": mean, "maxGas": mx, "samples": int(x["samples"]),
-                     "dataGasStandard": rules["STANDARD_TOKEN_COST"] * rules["TOKENS_PER_NONZERO_BYTE"] * sig})
+                     "dataGasStandard": rules["STANDARD_TOKEN_COST"] * rules["TOKENS_PER_NONZERO_BYTE"] * sig,
+                     "dataGasFloor": rules["TOTAL_COST_FLOOR_PER_TOKEN"] * rules["TOKENS_PER_NONZERO_BYTE"] * sig})
     xb = load("account_xmss_bench_gas.json")
     rows.append({"name": "HashAccount, XMSS h=10 (Profile B)",
                  "basis": "measured (account VERIFY frame incl. verifier call, bench build)",
                  "signatureBytes": int(xb["signatureBytes"]), "chains": 67, "meanGas": int(xb["mean"]),
                  "maxGas": int(xb["max"]), "samples": int(xb["samples"]),
-                 "dataGasStandard": rules["STANDARD_TOKEN_COST"] * rules["TOKENS_PER_NONZERO_BYTE"] * int(xb["signatureBytes"])})
+                 "dataGasStandard": rules["STANDARD_TOKEN_COST"] * rules["TOKENS_PER_NONZERO_BYTE"] * int(xb["signatureBytes"]),
+                 "dataGasFloor": rules["TOTAL_COST_FLOOR_PER_TOKEN"] * rules["TOKENS_PER_NONZERO_BYTE"] * int(xb["signatureBytes"])})
     # Real VERIFY frames on a LOCAL ethrex eip8141-tracer (simulation), when the local runs exist.
     import glob
     for mode in ("keyed", "legacy"):
@@ -88,7 +92,8 @@ def main() -> None:
             rows.append({"name": f"HashAccount, w=16, {mode} nonce (Profile A) on ethrex",
                          "basis": f"LOCAL ethrex simulation, real opcodes{' incl. 20,000 keyed-nonce charge' if mode == 'keyed' else ''}",
                          "signatureBytes": 2468, "chains": 67, "meanGas": sum(g) // len(g), "maxGas": max(g), "samples": len(g),
-                         "dataGasStandard": rules["STANDARD_TOKEN_COST"] * rules["TOKENS_PER_NONZERO_BYTE"] * 2468})
+                         "dataGasStandard": rules["STANDARD_TOKEN_COST"] * rules["TOKENS_PER_NONZERO_BYTE"] * 2468,
+                         "dataGasFloor": rules["TOTAL_COST_FLOOR_PER_TOKEN"] * rules["TOKENS_PER_NONZERO_BYTE"] * 2468})
     sends_b = sorted(glob.glob(os.path.join(RES, "local", "send-b-*.json")))
     if sends_b:
         sim = json.load(open(sends_b[-1]))["simulation"]["result"]
@@ -96,7 +101,8 @@ def main() -> None:
         rows.append({"name": "HashAccount, XMSS h=10 (Profile B) on ethrex",
                      "basis": "LOCAL ethrex simulation, real opcodes incl. 20,000 keyed-nonce charge (1 sample)",
                      "signatureBytes": 2500, "chains": 67, "meanGas": gb, "maxGas": gb, "samples": 1,
-                     "dataGasStandard": rules["STANDARD_TOKEN_COST"] * rules["TOKENS_PER_NONZERO_BYTE"] * 2500})
+                     "dataGasStandard": rules["STANDARD_TOKEN_COST"] * rules["TOKENS_PER_NONZERO_BYTE"] * 2500,
+                     "dataGasFloor": rules["TOTAL_COST_FLOOR_PER_TOKEN"] * rules["TOKENS_PER_NONZERO_BYTE"] * 2500})
     for row in rows:
         row["admission"] = admission(row["maxGas"], row["signatureBytes"], rules, alt_budget)
 
@@ -110,12 +116,16 @@ def main() -> None:
           f"Alt-mempool budget: {alt_budget if alt_budget is not None else 'unknown (no devnet value yet)'}.",
           f"Rows named 'HashAccount' are full account VERIFY frames. Other rows are the verifier call alone (no frame adjustment; "
           f"for comparison the w=16 library call max is {lib16_max:,} and the w=16 account frame max is {int(bench['max']):,}).", "",
-          "| scheme | signature bytes | VERIFY gas mean | VERIFY gas max | basis | signature data gas (16/byte) | public mempool | alt mempool |",
-          "|---|---|---|---|---|---|---|---|"]
+          "The transaction pays the larger of its standard calldata total and its floor total. "
+          "On this local build neither term counts toward MAX_VERIFY_GAS (OPEN_QUESTIONS Q1). "
+          "The signer sets its own VERIFY limit from results/verify_gas_model.json, not from the sample maximum in this table.",
+          "",
+          "| scheme | signature bytes | VERIFY gas mean | VERIFY gas max | basis | standard data gas (16/byte) | floor term (64/byte) | public mempool | alt mempool |",
+          "|---|---|---|---|---|---|---|---|---|"]
     for r in rows:
         a = r["admission"]
         md.append(f"| {r['name']} | {r['signatureBytes']:,} | {r['meanGas']:,} | {r['maxGas']:,} | {r['basis']} | "
-                  f"{r['dataGasStandard']:,} | {a['public']} | {a['alt']} |")
+                  f"{r['dataGasStandard']:,} | {r['dataGasFloor']:,} | {a['public']} | {a['alt']} |")
     with open(os.path.join(RES, "frontier.md"), "w") as f:
         f.write("\n".join(md) + "\n")
     with open(os.path.join(RES, "frontier.svg"), "w") as f:

@@ -1,5 +1,5 @@
 {
- "saved": "/Users/kartikdehru/Desktop/Lamport/Lamp-main/results/local/rotation/send-2026-11-12T12-55-16.638Z.json",
+ "saved": "/Users/kartikdehru/Desktop/Lamport/Lamp-main/results/local/rotation/send-2026-11-16T05-29-13.279Z.json",
  "simulation": {
   "id": 1,
   "jsonrpc": "2.0",
@@ -12,7 +12,7 @@
    "executionStatus": "success",
    "frames": [
     {
-     "gasUsed": "0x16080",
+     "gasUsed": "0x1281a",
      "succeeded": true
     },
     {
@@ -21,8 +21,8 @@
     }
    ],
    "gasUsed": "0x599da",
-   "maxCost": "0x89b729bfdf898",
-   "payer": "0xcfec10f694cbdb7866de1906c99e365f5ec81193",
+   "maxCost": "0x89419989610b0",
+   "payer": "0x94f002277b8888115c98e66ff344c3ecffc8ace0",
    "prefixShape": "SelfVerify"
   }
  },
@@ -37,6 +37,6 @@
  "response": {
   "jsonrpc": "2.0",
   "id": 1,
-  "result": "0x24838ae8e2ea9f87d26b920077e85164aea7a2afac5272687ccab514635c97e3"
+  "result": "0xb36766a55801dc3660db4c85d2894bd6c958ce750d544cebcdf424ea74626171"
  }
 }

@@ -4,14 +4,14 @@ Compiler: 0.8.37 via-IR, optimizer 200 runs, evm prague. Tree height 10. Each ro
 
 | w | chains | signature bytes | copy | digest | chains + leaf hash | path (10 levels) | library call total | fits 100,000? |
 |---|---|---|---|---|---|---|---|---|
-| 2 | 265 | 8,804 | 2,063 | 286 | 99,925 (97,859 to 101,488) | 3,263 (3,219 to 3,309) | 105,987 (103,921 to 107,535) | no (library only) |
-| 4 | 133 | 4,580 | 1,154 | 285 | 63,850 (60,179 to 67,290) | 3,257 (3,204 to 3,294) | 69,024 (65,299 to 72,470) | yes (library only) |
-| 16 | 67 | 2,468 | 725 | 285 | 69,033 (58,142 to 77,281) | 3,263 (3,219 to 3,309) | 73,743 (62,868 to 81,977) | yes (library only) |
-| 256 | 34 | 1,412 | 517 | 285 | 384,529 (296,189 to 470,746) | 3,260 (3,219 to 3,309) | 389,091 (300,739 to 475,326) | no (library only) |
+| 2 | 265 | 8,804 | 2,063 | 286 | 98,507 (95,622 to 100,702) | 3,263 (3,219 to 3,309) | 104,568 (101,684 to 106,749) | no (library only) |
+| 4 | 133 | 4,580 | 1,154 | 285 | 55,820 (52,683 to 58,481) | 3,257 (3,204 to 3,294) | 60,993 (57,803 to 63,646) | yes (library only) |
+| 16 | 67 | 2,468 | 725 | 285 | 49,098 (42,601 to 54,008) | 3,263 (3,219 to 3,309) | 53,808 (47,327 to 58,704) | yes (library only) |
+| 256 | 34 | 1,412 | 517 | 285 | 235,903 (182,639 to 288,043) | 3,260 (3,219 to 3,309) | 240,465 (187,189 to 292,623) | no (library only) |
 
 ## Signature bytes as transaction data (arithmetic from the EIP-8141 formulas, not measured)
 
-ARBITRARY bytes with empty `msg` are priced as all non-zero. Standard cost is 16 gas per byte. The calldata floor term is 64 gas per byte; the transaction pays the larger of its standard total and its floor total. My reading of rule 6 is that neither counts toward MAX_VERIFY_GAS (OPEN_QUESTIONS Q1, unconfirmed).
+ARBITRARY bytes with empty `msg` are priced as all non-zero. Standard cost is 16 gas per byte. The calldata floor term is 64 gas per byte; the transaction pays the larger of its standard total and its floor total. On the local ethrex build neither term counts toward MAX_VERIFY_GAS (results/local/probe-bigsig.json). A public devnet is still open (OPEN_QUESTIONS Q1).
 
 | w | signature bytes | standard data gas | floor term |
 |---|---|---|---|
@@ -20,4 +20,4 @@ ARBITRARY bytes with empty `msg` are priced as all non-zero. Standard cost is 16
 | 16 | 2,468 | 39,488 | 157,952 |
 | 256 | 1,412 | 22,592 | 90,368 |
 
-The frame-level figure (frame entry, TXPARAM, SIGDATACOPY, APPROVE, nonce-key checks) is not in this table: it needs an EIP-8141 client (docs/DEVNET_RUNBOOK.md).
+The account VERIFY frame (frame entry, TXPARAM, SIGDATACOPY, APPROVE, nonce-key checks) is not in this table. It is measured in results/account_bench_gas.json and results/local/calibration_keyed.json.

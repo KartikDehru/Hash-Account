@@ -1,6 +1,6 @@
 {
  "source": "scripts/frontier.py",
- "library16Max": 81977,
+ "library16Max": 58704,
  "altBudget": null,
  "rows": [
   {
@@ -8,14 +8,15 @@
    "basis": "measured library call only",
    "signatureBytes": 8804,
    "chains": 265,
-   "meanGas": 105987,
-   "maxGas": 107535,
+   "meanGas": 104568,
+   "maxGas": 106749,
    "samples": 64,
    "dataGasStandard": 140864,
+   "dataGasFloor": 563456,
    "admission": {
     "public": "REFUSED",
     "alt": "UNKNOWN",
-    "reason": "declared prefix execution limits 107535 + signature verification 100 = 107635 vs cap 100000"
+    "reason": "declared prefix execution limits 106749 + signature verification 100 = 106849 vs cap 100000"
    }
   },
   {
@@ -23,10 +24,11 @@
    "basis": "measured library call only",
    "signatureBytes": 4580,
    "chains": 133,
-   "meanGas": 69024,
-   "maxGas": 72470,
+   "meanGas": 60993,
+   "maxGas": 63646,
    "samples": 64,
    "dataGasStandard": 73280,
+   "dataGasFloor": 293120,
    "admission": {
     "public": "ACCEPTED",
     "alt": "UNKNOWN",
@@ -38,10 +40,11 @@
    "basis": "measured (account VERIFY frame, bench build)",
    "signatureBytes": 2468,
    "chains": 67,
-   "meanGas": 70139,
-   "maxGas": 79924,
+   "meanGas": 53132,
+   "maxGas": 59240,
    "samples": 128,
    "dataGasStandard": 39488,
+   "dataGasFloor": 157952,
    "admission": {
     "public": "ACCEPTED",
     "alt": "UNKNOWN",
@@ -53,14 +56,15 @@
    "basis": "measured library call only",
    "signatureBytes": 1412,
    "chains": 34,
-   "meanGas": 389091,
-   "maxGas": 475326,
+   "meanGas": 240465,
+   "maxGas": 292623,
    "samples": 64,
    "dataGasStandard": 22592,
+   "dataGasFloor": 90368,
    "admission": {
     "public": "REFUSED",
     "alt": "UNKNOWN",
-    "reason": "declared prefix execution limits 475326 + signature verification 100 = 475426 vs cap 100000"
+    "reason": "declared prefix execution limits 292623 + signature verification 100 = 292723 vs cap 100000"
    }
   },
   {
@@ -72,6 +76,7 @@
    "maxGas": 791963,
    "samples": 4,
    "dataGasStandard": 40000,
+   "dataGasFloor": 160000,
    "admission": {
     "public": "REFUSED",
     "alt": "UNKNOWN",
@@ -87,6 +92,7 @@
    "maxGas": 747520,
    "samples": 4,
    "dataGasStandard": 45120,
+   "dataGasFloor": 180480,
    "admission": {
     "public": "REFUSED",
     "alt": "UNKNOWN",
@@ -102,6 +108,7 @@
    "maxGas": 820572,
    "samples": 4,
    "dataGasStandard": 40000,
+   "dataGasFloor": 160000,
    "admission": {
     "public": "REFUSED",
     "alt": "UNKNOWN",
@@ -113,10 +120,11 @@
    "basis": "LOCAL ethrex simulation, real opcodes incl. 20,000 keyed-nonce charge",
    "signatureBytes": 2468,
    "chains": 67,
-   "meanGas": 88797,
-   "maxGas": 95356,
+   "meanGas": 73067,
+   "maxGas": 77396,
    "samples": 48,
    "dataGasStandard": 39488,
+   "dataGasFloor": 157952,
    "admission": {
     "public": "ACCEPTED",
     "alt": "UNKNOWN",
@@ -128,10 +136,11 @@
    "basis": "LOCAL ethrex simulation, real opcodes",
    "signatureBytes": 2468,
    "chains": 67,
-   "meanGas": 67961,
-   "maxGas": 76294,
+   "meanGas": 52524,
+   "maxGas": 57356,
    "samples": 48,
    "dataGasStandard": 39488,
+   "dataGasFloor": 157952,
    "admission": {
     "public": "ACCEPTED",
     "alt": "UNKNOWN",
@@ -143,14 +152,15 @@
    "basis": "LOCAL ethrex simulation, real opcodes incl. 20,000 keyed-nonce charge (1 sample)",
    "signatureBytes": 2500,
    "chains": 67,
-   "meanGas": 812737,
-   "maxGas": 812737,
+   "meanGas": 690937,
+   "maxGas": 690937,
    "samples": 1,
    "dataGasStandard": 40000,
+   "dataGasFloor": 160000,
    "admission": {
     "public": "REFUSED",
     "alt": "UNKNOWN",
-    "reason": "declared prefix execution limits 812737 + signature verification 100 = 812837 vs cap 100000"
+    "reason": "declared prefix execution limits 690937 + signature verification 100 = 691037 vs cap 100000"
    }
   }
  ]

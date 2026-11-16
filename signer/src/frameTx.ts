@@ -112,7 +112,8 @@ export function lamportPayment(opts: {
   const legacy = opts.nonceMode === "legacy";
   return {
     chainId: opts.chainId,
-    // keyed: leaf i uses nonce key LAMP+i at sequence 0; legacy: the leaf is the account nonce.
+    // keyed: leaf i of epoch e uses nonce key LAMP + (e << 16) + i at sequence 0
+    // legacy: the account nonce is epoch * 1024 + leaf.
     nonceKeys: legacy ? [0n] : [nonceKeyForLeaf(opts.leaf, opts.keyBase, opts.epoch ?? 0)],
     nonceSeq: legacy ? BigInt(opts.epoch ?? 0) * 1024n + BigInt(opts.leaf) : 0n,
     sender: opts.sender,

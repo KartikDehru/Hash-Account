@@ -2,7 +2,7 @@
  "experiment": "banned",
  "note": "VERIFY code runs TIMESTAMP then APPROVE(3); expected: refused (banned opcode)",
  "scope": "LOCAL ethrex eip8141-tracer + local sidecar, not the public devnet",
- "time": "2026-11-12T12:53:29.130Z",
+ "time": "2026-11-16T05:27:34.415Z",
  "sigHash": "0xdbb5c153d0cb5ee6ec8fd8e425073dd60a3124177439bc2a7c5ea2cba1c519ce",
  "tx": {
   "chainId": "0x9",

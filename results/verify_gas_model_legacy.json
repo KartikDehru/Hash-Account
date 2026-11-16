@@ -2,15 +2,15 @@
  "source": "scripts/verify_gas_model.py from results/local/calibration_legacy.json (LOCAL ethrex simulation)",
  "nonceMode": "legacy",
  "samples": 48,
- "intercept": 28446.3,
- "perStep": 79.577,
- "maxResidual": 364.9,
- "minResidual": -449.4,
+ "intercept": 25873.9,
+ "perStep": 53.267,
+ "maxResidual": 480.7,
+ "minResidual": -344.2,
  "stepsRange": [
-  420,
-  600
+  435,
+  585
  ],
  "worstCaseSteps": 990,
- "worstCaseGasPredicted": 107593,
+ "worstCaseGasPredicted": 79089,
  "note": "The signer adds the max residual and a 2,000-gas margin."
 }

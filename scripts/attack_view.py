@@ -167,7 +167,7 @@ svg {{ width:100%; height:auto; }} code {{ font-size:13px; }}
 <h2 style="font-size:17px">Attempts needed after two signatures on one key</h2>
 {histogram_svg(r2['tries'])}
 <h2 style="font-size:17px">So reuse is refused twice</h2>
-<p>The chain accepts leaf <i>i</i> only with nonce key <code>LAMP+i</code> at sequence 0, which can happen once. The signer reads that state and keeps a journal:</p>
+<p>The chain accepts leaf <i>i</i> of epoch <i>e</i> only with nonce key <code>LAMP + (e &lt;&lt; 16) + i</code> at sequence 0, which can happen once. The signer reads that state and keeps a journal:</p>
 <ul>{log}</ul>
 </body></html>
 """

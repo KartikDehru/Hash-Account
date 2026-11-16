@@ -14,8 +14,14 @@ def digits(p: Params, digest: bytes) -> list[int]:
 
 
 def chain(seed: bytes, chain_id: int, leaf: int, index: int, x: bytes, start: int, end: int) -> bytes:
+    """Walk a chain from position `start` to `end`.
+
+    Step 0 is the tweakable hash (seed, leaf, chain index). Every later step is
+    keccak256 of the 32-byte value alone, which is what the verifier spends its
+    gas on. The checksum still stops a walk to a higher digit.
+    """
     for step in range(start, end):
-        x = chain_step(seed, chain_id, leaf, index, step, x)
+        x = chain_step(seed, chain_id, leaf, index, 0, x) if step == 0 else h(x)
     return x
 
 

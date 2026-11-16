@@ -1,5 +1,5 @@
 {
- "saved": "/Users/kartikdehru/Desktop/Lamport/Lamp-main/results/local/rotation/send-2026-11-12T12-55-20.691Z.json",
+ "saved": "/Users/kartikdehru/Desktop/Lamport/Lamp-main/results/local/rotation/send-2026-11-16T05-29-16.852Z.json",
  "simulation": {
   "id": 1,
   "jsonrpc": "2.0",
@@ -8,7 +8,7 @@
    "canonicalMempoolViolation": "validation prefix frame reverted",
    "erc7562Trace": null,
    "erc7562TraceError": null,
-   "executionError": "Invalid Transaction: Invalid frame transaction: VERIFY frame 0 (target 0xcfec10f694cbdb7866de1906c99e365f5ec81193, 1727 bytes of code) failed: RevertOpcode",
+   "executionError": "Invalid Transaction: Invalid frame transaction: VERIFY frame 0 (target 0x94f002277b8888115c98e66ff344c3ecffc8ace0, 1190 bytes of code) failed: RevertOpcode",
    "executionStatus": null,
    "failedFrameIndex": 0,
    "frames": null,

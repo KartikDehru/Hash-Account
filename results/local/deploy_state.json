@@ -1,10 +1,10 @@
 {
  "scope": "LOCAL ethrex eip8141-tracer simulation",
- "deployStateGasFails": 2739746,
- "deployStateGasSucceeds": 2740417,
- "accountRuntimeBytes": 1727,
+ "deployStateGasFails": 1917968,
+ "deployStateGasSucceeds": 1918639,
+ "accountRuntimeBytes": 1190,
  "costPerStateByte": 1530,
- "runtimeBytesTimesCpsb": 2642310,
+ "runtimeBytesTimesCpsb": 1820700,
  "publicMaxVerifyStateGas": 500000,
  "verdict": "deploy + self_verify cannot pass the public state-gas cap"
 }

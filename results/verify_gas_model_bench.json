@@ -2,15 +2,15 @@
  "source": "scripts/verify_gas_model.py from results/account_bench_gas.json (bench build, no keyed-nonce charge)",
  "nonceMode": "bench",
  "samples": 128,
- "intercept": 28537.0,
- "perStep": 81.405,
- "maxResidual": 334.6,
- "minResidual": -542.6,
+ "intercept": 26366.5,
+ "perStep": 52.374,
+ "maxResidual": 392.3,
+ "minResidual": -326.1,
  "stepsRange": [
   420,
   630
  ],
  "worstCaseSteps": 990,
- "worstCaseGasPredicted": 109462,
+ "worstCaseGasPredicted": 78609,
  "note": "The signer adds the max residual and a 2,000-gas margin."
 }

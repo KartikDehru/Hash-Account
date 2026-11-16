@@ -22,17 +22,17 @@
 <line x1="643.5" x2="643.5" y1="78" y2="454" stroke="#e4e3df" stroke-width="1"/>
 <text x="643.5" y="470" fill="#52514e" text-anchor="middle">800k</text>
 <text x="292" y="99.0" fill="#0b0b0b" text-anchor="end">HashAccount library, Winternitz w=2</text>
-<rect x="300" y="84" width="46.2" height="22" rx="4" fill="#2a78d6"><title>HashAccount library, Winternitz w=2: max 107,535, mean 105,987 gas</title></rect>
-<text x="352.2" y="99.0" fill="#52514e">107k, over cap</text>
+<rect x="300" y="84" width="45.8" height="22" rx="4" fill="#2a78d6"><title>HashAccount library, Winternitz w=2: max 106,749, mean 104,568 gas</title></rect>
+<text x="351.8" y="99.0" fill="#52514e">106k, over cap</text>
 <text x="292" y="135.0" fill="#0b0b0b" text-anchor="end">HashAccount library, Winternitz w=4</text>
-<rect x="300" y="120" width="31.1" height="22" rx="4" fill="#2a78d6"><title>HashAccount library, Winternitz w=4: max 72,470, mean 69,024 gas</title></rect>
-<text x="350.9" y="135.0" fill="#52514e">72k, fits public</text>
+<rect x="300" y="120" width="27.3" height="22" rx="4" fill="#2a78d6"><title>HashAccount library, Winternitz w=4: max 63,646, mean 60,993 gas</title></rect>
+<text x="350.9" y="135.0" fill="#52514e">63k, fits public</text>
 <text x="292" y="171.0" fill="#0b0b0b" text-anchor="end">HashAccount, Winternitz w=16 (bench)</text>
-<rect x="300" y="156" width="34.3" height="22" rx="4" fill="#2a78d6"><title>HashAccount, Winternitz w=16 (Profile A): max 79,924, mean 70,139 gas</title></rect>
-<text x="350.9" y="171.0" fill="#52514e">79k, fits public</text>
+<rect x="300" y="156" width="25.4" height="22" rx="4" fill="#2a78d6"><title>HashAccount, Winternitz w=16 (Profile A): max 59,240, mean 53,132 gas</title></rect>
+<text x="350.9" y="171.0" fill="#52514e">59k, fits public</text>
 <text x="292" y="207.0" fill="#0b0b0b" text-anchor="end">HashAccount library, Winternitz w=256</text>
-<rect x="300" y="192" width="204.1" height="22" rx="4" fill="#2a78d6"><title>HashAccount library, Winternitz w=256: max 475,326, mean 389,091 gas</title></rect>
-<text x="510.1" y="207.0" fill="#52514e">475k, over cap</text>
+<rect x="300" y="192" width="125.7" height="22" rx="4" fill="#2a78d6"><title>HashAccount library, Winternitz w=256: max 292,623, mean 240,465 gas</title></rect>
+<text x="431.7" y="207.0" fill="#52514e">292k, over cap</text>
 <text x="292" y="243.0" fill="#0b0b0b" text-anchor="end">XMSS-SHA2 h=10</text>
 <rect x="300" y="228" width="340.1" height="22" rx="4" fill="#2a78d6"><title>XMSS-SHA2 h=10 (Skale, vendored): max 791,963, mean 723,470 gas</title></rect>
 <text x="646.1" y="243.0" fill="#52514e">791k, over cap</text>
@@ -43,14 +43,14 @@
 <rect x="300" y="300" width="352.4" height="22" rx="4" fill="#2a78d6"><title>HashAccount, XMSS h=10 (Profile B): max 820,572, mean 752,704 gas</title></rect>
 <text x="658.4" y="315.0" fill="#52514e">820k, over cap</text>
 <text x="292" y="351.0" fill="#0b0b0b" text-anchor="end">HashAccount w=16, keyed nonce (ethrex)</text>
-<rect x="300" y="336" width="40.9" height="22" rx="4" fill="#2a78d6"><title>HashAccount, w=16, keyed nonce (Profile A) on ethrex: max 95,356, mean 88,797 gas</title></rect>
-<text x="350.9" y="351.0" fill="#52514e">95k, fits public</text>
+<rect x="300" y="336" width="33.2" height="22" rx="4" fill="#2a78d6"><title>HashAccount, w=16, keyed nonce (Profile A) on ethrex: max 77,396, mean 73,067 gas</title></rect>
+<text x="350.9" y="351.0" fill="#52514e">77k, fits public</text>
 <text x="292" y="387.0" fill="#0b0b0b" text-anchor="end">HashAccount w=16, legacy nonce (ethrex)</text>
-<rect x="300" y="372" width="32.8" height="22" rx="4" fill="#2a78d6"><title>HashAccount, w=16, legacy nonce (Profile A) on ethrex: max 76,294, mean 67,961 gas</title></rect>
-<text x="350.9" y="387.0" fill="#52514e">76k, fits public</text>
+<rect x="300" y="372" width="24.6" height="22" rx="4" fill="#2a78d6"><title>HashAccount, w=16, legacy nonce (Profile A) on ethrex: max 57,356, mean 52,524 gas</title></rect>
+<text x="350.9" y="387.0" fill="#52514e">57k, fits public</text>
 <text x="292" y="423.0" fill="#0b0b0b" text-anchor="end">HashAccount, XMSS h=10 (ethrex)</text>
-<rect x="300" y="408" width="349.0" height="22" rx="4" fill="#2a78d6"><title>HashAccount, XMSS h=10 (Profile B) on ethrex: max 812,737, mean 812,737 gas</title></rect>
-<text x="655.0" y="423.0" fill="#52514e">812k, over cap</text>
+<rect x="300" y="408" width="296.7" height="22" rx="4" fill="#2a78d6"><title>HashAccount, XMSS h=10 (Profile B) on ethrex: max 690,937, mean 690,937 gas</title></rect>
+<text x="602.7" y="423.0" fill="#52514e">690k, over cap</text>
 <line x1="342.9" x2="342.9" y1="74" y2="454" stroke="#0b0b0b" stroke-width="2" stroke-dasharray="5 4"/>
 <text x="346.9" y="70" fill="#0b0b0b">public mempool cap 100k</text>
 </svg>

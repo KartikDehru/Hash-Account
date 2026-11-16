@@ -13,7 +13,7 @@ contract GasTest is Test {
     uint256 internal constant SAMPLES = 64;
     uint256 internal constant HEIGHT = 10;
     // Profile A regression bound for the library call (mean). Raise only with a recorded reason.
-    uint256 internal constant PROFILE_A_MEAN_LIMIT = 80_000;
+    uint256 internal constant PROFILE_A_MEAN_LIMIT = 62_000;
 
     GasProbe internal probe = new GasProbe();
 

@@ -27,13 +27,17 @@ export function adrs(kind: bigint, chainId: bigint, a = 0n, b = 0n, c = 0n): Uin
 }
 
 function chain(seed: Uint8Array, chainId: bigint, leaf: number, index: number, x: Uint8Array, start: number, end: number): Uint8Array {
-  // One buffer per chain: seed | adrs | x, only the step field and x change.
+  // Step 0 binds seed, leaf and chain index. Later steps are keccak256(x) only.
   const buf = new Uint8Array(96);
   buf.set(seed, 0);
   for (let step = start; step < end; step++) {
-    buf.set(adrs(CHAIN, chainId, BigInt(leaf), BigInt(index), BigInt(step)), 32);
-    buf.set(x, 64);
-    x = h(buf);
+    if (step === 0) {
+      buf.set(adrs(CHAIN, chainId, BigInt(leaf), BigInt(index), 0n), 32);
+      buf.set(x, 64);
+      x = h(buf);
+    } else {
+      x = h(x);
+    }
   }
   return x;
 }

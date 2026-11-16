@@ -89,13 +89,14 @@ def main() -> None:
     md += ["", "## Signature bytes as transaction data (arithmetic from the EIP-8141 formulas, not measured)", "",
            "ARBITRARY bytes with empty `msg` are priced as all non-zero. Standard cost is 16 gas per byte. "
            "The calldata floor term is 64 gas per byte; the transaction pays the larger of its standard total and its floor total. "
-           "My reading of rule 6 is that neither counts toward MAX_VERIFY_GAS (OPEN_QUESTIONS Q1, unconfirmed).", "",
+           "On the local ethrex build neither term counts toward MAX_VERIFY_GAS "
+           "(results/local/probe-bigsig.json). A public devnet is still open (OPEN_QUESTIONS Q1).", "",
            "| w | signature bytes | standard data gas | floor term |", "|---|---|---|---|"]
     for row in rows:
         a = row["arithmetic"]
         md.append(f"| {row['w']} | {row['signatureBytes']:,} | {a['signatureDataGasStandard']:,} | {a['signatureDataGasFloorTerm']:,} |")
-    md += ["", "The frame-level figure (frame entry, TXPARAM, SIGDATACOPY, APPROVE, nonce-key checks) is not in this table: "
-           "it needs an EIP-8141 client (docs/DEVNET_RUNBOOK.md)."]
+    md += ["", "The account VERIFY frame (frame entry, TXPARAM, SIGDATACOPY, APPROVE, nonce-key checks) is not in this table. "
+           "It is measured in results/account_bench_gas.json and results/local/calibration_keyed.json."]
     with open(os.path.join(RESULTS, "gas.md"), "w") as f:
         f.write("\n".join(md) + "\n")
     print("\n".join(md))

@@ -50,10 +50,22 @@ LEAF_KEY_BASE = int.from_bytes(b"LAMP", "big") << 224
 MAX_NONCE_SEQ = (1 << 64) - 1
 
 
-def nonce_key(leaf: int) -> int:
-    return LEAF_KEY_BASE + leaf
+def nonce_key(leaf: int, epoch: int = 0) -> int:
+    """Keyed nonce for one leaf. Epoch 0 matches `LAMP + leaf`. See reference/SPEC.md."""
+    if not 0 <= leaf < 1024 or not 0 <= epoch <= 0xFFFF:
+        raise ValueError("leaf must be 0..1023 and epoch 0..65535")
+    return LEAF_KEY_BASE + (epoch << 16) + leaf
 
 
 def leaf_of_nonce_key(key: int) -> int | None:
-    leaf = key - LEAF_KEY_BASE
-    return leaf if 0 <= leaf < 1 << 32 else None
+    offset = key - LEAF_KEY_BASE
+    if not 0 <= offset < 1 << 32:
+        return None
+    return offset & 0xFFFF
+
+
+def epoch_of_nonce_key(key: int) -> int | None:
+    offset = key - LEAF_KEY_BASE
+    if not 0 <= offset < 1 << 32:
+        return None
+    return offset >> 16

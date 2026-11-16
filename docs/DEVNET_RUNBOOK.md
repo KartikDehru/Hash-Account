@@ -33,7 +33,7 @@ cast code 0x4e59b44847b379578588920ca78fbf26c0b4956c --rpc-url $RPC        # det
 ## 3. Make a test key and the account address
 ```sh
 cd signer
-bun run src/cli.ts keygen --out keys/test-key.json --chain-id 1337 --nonce-mode legacy   # or keyed (default); see DECISIONS
+bun run src/cli.ts keygen --out keys/test-key.json --chain-id 1337    # keyed nonce, the default; add --nonce-mode legacy for the sequential nonce
 bun run src/cli.ts address --key keys/test-key.json     # prints address, deployTo, deployData
 ```
 
@@ -47,7 +47,7 @@ cast send 0x4e59b44847b379578588920ca78fbf26c0b4956c $DATA --private-key $DEPLOY
 cast code $ADDR --rpc-url $RPC | head -c 20          # must not be 0x
 cast send $ADDR --value 0.05ether --private-key $DEPLOYER_KEY --rpc-url $RPC
 ```
-(Deploying inside the frame transaction, shape `deploy + self_verify`, is possible but its deploy limit counts toward the 100,000 cap; we deploy separately first. See docs/DECISIONS.md.)
+Deploying inside the frame (`deploy + self_verify`) does not pass the public rules for this account. On the 16 Nov 2026 local run the deploy frame's execution sum is 476,308 gas against the 100,000 cap (`results/local/probe-deploy.json`), and the state gas is about 1.92M against the 500,000 cap (`results/local/deploy_state.json`). Deploy in an earlier transaction, as this step does.
 
 ## 5. Dry run, then send the first Profile A transaction
 ```sh
@@ -62,9 +62,9 @@ The second command signs with the lowest leaf whose NONCE_MANAGER slot is zero, 
 ```sh
 cast storage 0x0000000000000000000000000000000000008250 \
   $(cast keccak $(cast concat-hex $(cast to-uint256 $ADDR) $(cast to-uint256 0x4c414d5000000000000000000000000000000000000000000000000000000000))) --rpc-url $RPC
-# expect 0x...01 after the first transaction is included (leaf 0 used)
+# expect 0x...01 after the first keyed transaction is included (epoch 0, leaf 0)
 ```
-Then send again: the signer must pick leaf 1, not leaf 0.
+This slot is the keyed nonce for epoch 0, leaf 0. Legacy mode spends the account nonce (`epoch * 1024 + leaf`) and does not write this slot. Then send again: the signer must pick leaf 1, not leaf 0.
 
 ## 7. Profile B (XMSS, alt mempool)
 ```sh
@@ -88,7 +88,8 @@ export ETHREX_REPO=$PWD/../ethrex SIDECAR_DIR=$PWD/../sidecar
 ./scripts/local_devnet.sh prepare && ./scripts/local_devnet.sh up
 ./scripts/local_experiments.sh      # writes results/local/*.json
 ./scripts/local_inclusion.sh        # blocks via the Engine API, inclusion and reuse attempts
-(cd ../sidecar && git apply ../Lamp/patches/sidecar-configurable-verify-budget.patch && bun run build)
+git -C "$SIDECAR_DIR" apply "$PWD/patches/sidecar-configurable-verify-budget.patch"
+(cd "$SIDECAR_DIR" && bun run build)
 ./scripts/local_alt_budget.sh       # Profile B through the patched sidecar (docs/RULE_FINDINGS.md)
 ./scripts/local_devnet.sh down
 ```

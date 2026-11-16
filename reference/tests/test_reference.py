@@ -8,7 +8,7 @@ from hypothesis import given, settings, strategies as st
 from lamport.attack import TOY, try_forge
 from lamport.cli import MUTATIONS, mutate, random_case
 from lamport.hashing import h, message_digest
-from lamport.params import PROFILE_A, Params, leaf_of_nonce_key, nonce_key
+from lamport.params import LEAF_KEY_BASE, PROFILE_A, Params, epoch_of_nonce_key, leaf_of_nonce_key, nonce_key
 from lamport.signer import Journal, LeafReuseError, Signer
 from lamport.tree import KeyTree, verify
 from lamport.wots import digits
@@ -151,7 +151,12 @@ def test_nonce_key_round_trip():
     assert nonce_key(0) != 0
     for leaf in (0, 1, 1023):
         assert leaf_of_nonce_key(nonce_key(leaf)) == leaf
+        assert epoch_of_nonce_key(nonce_key(leaf)) == 0
+        assert leaf_of_nonce_key(nonce_key(leaf, 3)) == leaf
+        assert epoch_of_nonce_key(nonce_key(leaf, 3)) == 3
+        assert nonce_key(leaf, 3) == LEAF_KEY_BASE + (3 << 16) + leaf
     assert leaf_of_nonce_key(0) is None
+    assert epoch_of_nonce_key(0) is None
 
 
 def test_toy_forgery_after_two_signatures():

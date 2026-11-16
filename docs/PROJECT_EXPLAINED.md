@@ -8,7 +8,7 @@ There is an old kind of signature that relies only on hash functions (the same "
 
 HashAccount builds an Ethereum account around this. The code still says Lamport, after Leslie Lamport's one-time signature:
 - The account holds **1,024 one-time keys**, packed into a structure called a Merkle tree, so the account only needs to store one short fingerprint (the "root") of all of them.
-- Each transaction uses the next unused key.
+- Each transaction spends one unused key. In keyed mode that can be any unused leaf. In legacy mode it is the leaf selected by the account nonce, in order.
 - On the frame-transaction design, each key is tied to the transaction's **nonce**. Once a transaction with that nonce is included, the same nonce cannot be used again. Local runs show the node refusing that second use. Ethereum mainnet does not have frame transactions yet, so this guarantee is not live there.
 - The account never has an ECDSA key at all.
 - When the 1,024 keys run low, one signed transaction adds a fresh set of 1,024 keys ("key rotation") without changing the account's address.
@@ -19,8 +19,8 @@ A proposed Ethereum upgrade, **EIP-8141 "frame transactions"**, lets an account 
 The catch is a budget: to keep nodes safe from spam, the normal (public) transaction pool only accepts transactions whose checking step costs at most **100,000 gas**. A second, "alternative" pool is being designed for transactions that need more. Profile A is measured against the public cap. Profile B shows which schemes need the larger budget.
 
 ## What we built
-- **Profile A**: the account described above, using a signature type called Winternitz. It is small enough for the public pool: in the 12 Nov 2026 local measurements its checking step cost at most 76,294 gas with the ordinary nonce and 95,356 with the newer "keyed" nonce.
-- **Profile B**: the same idea with a heavier, standardised scheme (XMSS, reusing an open-source verifier from SKALE). It costs about three quarters of a million gas, so it can only go through the alternative pool.
+- **Profile A**: the account described above, using a signature type called Winternitz. It is small enough for the public pool: in the 16 Nov 2026 local measurements its checking step cost at most 57,356 gas with the ordinary nonce and 77,396 with the newer "keyed" nonce.
+- **Profile B**: the same idea with a heavier, standardised scheme (XMSS, reusing an open-source verifier from SKALE). On the 16 Nov 2026 local runs its checking step cost 690,937 to 812,757 gas. The alternative-pool program we tested still applies the 100,000 cap, so Profile B was refused until that budget was raised.
 - **A signer** (the program that creates signatures). It asks the chain which keys are already used, keeps its own written record, and refuses to sign twice with one key.
 - **Measurements and tools**: scripts that measure the gas of each signature type, a checker that predicts whether a transaction would be admitted, an "attack view" that shows why reusing a key is dangerous, and a demo page (`results/demo.html`).
 

@@ -1,7 +1,7 @@
 {
  "scope": "LOCAL ethrex eip8141-tracer + local sidecar + local block driver, not the public devnet",
  "mode": "legacy",
- "sender": "0x2eB65C2EBD2E4c1463E1119ed7944dc9e2ef1bEA",
+ "sender": "0x2665BF7Fdb2e88250AF726d95619220B9117aDdE",
  "rebroadcast": "leaf 1 was already signed (journal); rebroadcasting the saved signed transaction",
  "leaf": 1,
  "leafStateBefore": {
@@ -11,7 +11,7 @@
  "send1": {
   "jsonrpc": "2.0",
   "id": 1,
-  "result": "0xa85c35179df1eb6e243b0437d71d9573d47823695dc832f7c6d971e11f5590ad"
+  "result": "0xd77812a3244d661e0b09ca63fbac63494528462cb3338e7d0b1fd18a39a75844"
  },
  "relay": {
   "jsonrpc": "2.0",
@@ -20,7 +20,7 @@
  },
  "block1": {
   "number": 3,
-  "hash": "0xfac9af8cb97ea90085c33267241ab9d8139174a4db191a4cedd9d21d933bec53",
+  "hash": "0x5eb743f121d227439b3321788f3f5c1ef84fbb4239749fb4897abe2d99000cc1",
   "transactions": 1
  },
  "receiptSidecar": {
@@ -28,14 +28,14 @@
   "id": 1,
   "result": {
    "cumulativeGasUsed": "0x591da",
-   "payer": "0x2eb65c2ebd2e4c1463e1119ed7944dc9e2ef1bea",
+   "payer": "0x2665bf7fdb2e88250af726d95619220b9117adde",
    "blockNumber": "0x3",
    "status": "success",
    "frameReceipts": [
     {
      "status": "success",
      "gasUsed": {
-      "execution": "0x10859",
+      "execution": "0xcee6",
       "state": "0x0"
      },
      "logs": []
@@ -52,7 +52,7 @@
        "data": "0x00000000000000000000000000000000000000000000000000038d7ea4c68000",
        "topics": [
         "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef",
-        "0x0000000000000000000000002eb65c2ebd2e4c1463e1119ed7944dc9e2ef1bea",
+        "0x0000000000000000000000002665bf7fdb2e88250af726d95619220b9117adde",
         "0x000000000000000000000000000000000000000000000000000000000000dead"
        ]
       }
@@ -65,14 +65,14 @@
   "id": 1,
   "jsonrpc": "2.0",
   "result": {
-   "blockHash": "0xfac9af8cb97ea90085c33267241ab9d8139174a4db191a4cedd9d21d933bec53",
+   "blockHash": "0x5eb743f121d227439b3321788f3f5c1ef84fbb4239749fb4897abe2d99000cc1",
    "blockNumber": "0x3",
    "contractAddress": null,
    "cumulativeGasUsed": "0x591da",
    "effectiveGasPrice": "0x639e6f4b",
    "frameReceipts": [
     {
-     "gasUsed": "0x10859",
+     "gasUsed": "0xcee6",
      "logs": [],
      "stateGasUsed": "0x0",
      "status": "0x1"
@@ -85,7 +85,7 @@
        "data": "0x00000000000000000000000000000000000000000000000000038d7ea4c68000",
        "topics": [
         "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef",
-        "0x0000000000000000000000002eb65c2ebd2e4c1463e1119ed7944dc9e2ef1bea",
+        "0x0000000000000000000000002665bf7fdb2e88250af726d95619220b9117adde",
         "0x000000000000000000000000000000000000000000000000000000000000dead"
        ]
       }
@@ -94,31 +94,31 @@
      "status": "0x1"
     }
    ],
-   "from": "0x2eb65c2ebd2e4c1463e1119ed7944dc9e2ef1bea",
+   "from": "0x2665bf7fdb2e88250af726d95619220b9117adde",
    "gasUsed": "0x591da",
    "logs": [
     {
      "address": "0xfffffffffffffffffffffffffffffffffffffffe",
-     "blockHash": "0xfac9af8cb97ea90085c33267241ab9d8139174a4db191a4cedd9d21d933bec53",
+     "blockHash": "0x5eb743f121d227439b3321788f3f5c1ef84fbb4239749fb4897abe2d99000cc1",
      "blockNumber": "0x3",
-     "blockTimestamp": "0x6af5b712",
+     "blockTimestamp": "0x6afa9489",
      "data": "0x00000000000000000000000000000000000000000000000000038d7ea4c68000",
      "logIndex": "0x0",
      "removed": false,
      "topics": [
       "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef",
-      "0x0000000000000000000000002eb65c2ebd2e4c1463e1119ed7944dc9e2ef1bea",
+      "0x0000000000000000000000002665bf7fdb2e88250af726d95619220b9117adde",
       "0x000000000000000000000000000000000000000000000000000000000000dead"
      ],
-     "transactionHash": "0xa85c35179df1eb6e243b0437d71d9573d47823695dc832f7c6d971e11f5590ad",
+     "transactionHash": "0xd77812a3244d661e0b09ca63fbac63494528462cb3338e7d0b1fd18a39a75844",
      "transactionIndex": "0x0"
     }
    ],
-   "logsBloom": "0x00000000000010000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000008000000000000000000000000000000008000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000010000000000000000000000010000004000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000402000000000008000000000000000000000000000000000000000000400000000000000000000000000000000000000000000000000000000000000000",
-   "payer": "0x2eb65c2ebd2e4c1463e1119ed7944dc9e2ef1bea",
+   "logsBloom": "0x00000000000010000000200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000400000000000000000000000000008000000000000000000000000004000000000000000000000000000002000000000000000000000000000000000000010000000000000000000000000000004000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000402000000000008000000000000000000000000000000000000000000400000000000000000000000000000000000000000000000000000000000000000",
+   "payer": "0x2665bf7fdb2e88250af726d95619220b9117adde",
    "status": "0x1",
-   "to": "0x2eb65c2ebd2e4c1463e1119ed7944dc9e2ef1bea",
-   "transactionHash": "0xa85c35179df1eb6e243b0437d71d9573d47823695dc832f7c6d971e11f5590ad",
+   "to": "0x2665bf7fdb2e88250af726d95619220b9117adde",
+   "transactionHash": "0xd77812a3244d661e0b09ca63fbac63494528462cb3338e7d0b1fd18a39a75844",
    "transactionIndex": "0x0",
    "type": "0x6"
   }
@@ -160,7 +160,7 @@
    "canonicalMempoolViolation": "validation prefix frame reverted",
    "erc7562Trace": null,
    "erc7562TraceError": null,
-   "executionError": "Invalid Transaction: Invalid frame transaction: VERIFY frame 0 (target 0x2eb65c2ebd2e4c1463e1119ed7944dc9e2ef1bea, 1727 bytes of code) failed: RevertOpcode",
+   "executionError": "Invalid Transaction: Invalid frame transaction: VERIFY frame 0 (target 0x2665bf7fdb2e88250af726d95619220b9117adde, 1190 bytes of code) failed: RevertOpcode",
    "executionStatus": null,
    "failedFrameIndex": 0,
    "frames": null,

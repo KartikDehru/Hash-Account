@@ -1,4 +1,6 @@
-# Lamport signature encoding (reference for Python and Solidity)
+# Winternitz signature encoding (reference for Python and Solidity)
+
+The Python package is named `lamport`. The scheme below is Winternitz, not the original Lamport one-time signature.
 
 Unaudited research code. Hash-based, believed to resist known quantum attacks.
 
@@ -29,7 +31,8 @@ Unaudited research code. Hash-based, believed to resist known quantum attacks.
 As an integer: `type<<248 | chainId<<184 | a<<152 | b<<120 | c<<88`.
 
 ## Hashes (`seed` is the account's 32-byte public seed)
-- Chain step from position `j` to `j+1` of chain `i` of leaf `L`: `x' = H(seed || ADRS(CHAIN, a=L, b=i, c=j) || x)`.
+- Chain step from position `0` to `1` of chain `i` of leaf `L`: `x' = H(seed || ADRS(CHAIN, a=L, b=i, c=0) || x)`. This is the only step that carries the address word.
+- Chain step from position `j` to `j+1` for `j > 0`: `x' = H(x)`, a single 32-byte keccak256.
 - Leaf public key: `H(seed || ADRS(LEAF_PK, a=L, c=logW) || pk_0 || ... || pk_{len-1})`.
 - Tree node at level `l` (1..h), index `k`: `H(seed || ADRS(TREE, a=l, b=k) || left || right)`.
 - Message digest for leaf `L`: `d = H(seed || ADRS(MSG, a=L, c=logW) || m)`, where `m` is the 32-byte message (on chain: the EIP-8141 canonical signature hash).
@@ -52,7 +55,7 @@ The account's ARBITRARY signature entry is `seed || root || signature` (64 + 2,4
 registered key tree at storage slot `epoch` (epoch 0 at deployment; slot `2^255` holds the last
 epoch). Key rotation registers epoch `e + 1` from a SENDER frame of the account calling itself with
 `0x02 || seed || root`.
-- Keyed nonce mode: nonce key `0x4c414d50 << 224 + (epoch << 16) + leaf`, sequence 0.
+- Keyed nonce mode: nonce key `(0x4c414d50 << 224) + (epoch << 16) + leaf`, sequence 0.
 - Legacy nonce mode: nonce `epoch * 1024 + leaf`.
 The chain id and leaf in the hashes are unchanged; a new tree has its own random seed, so the trees
 of different epochs never share a hash input.
