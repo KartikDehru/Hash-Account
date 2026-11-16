@@ -2,7 +2,7 @@
 
 A post-quantum Ethereum account: no ECDSA key, hash-based one-time signatures (Winternitz keys in a Merkle tree), each key spent through the transaction nonce on the EIP-8141 design, and a measured map of which of those schemes fit the draft public mempool cap of 100,000 gas.
 
-This is an account contract and a signer. It is not a wallet application: there is no browser extension and no hosted service. The result tables use the name HashAccount. The contract files, the Python package, and the nonce tag stay Lamport, after the one-time signature.
+Today this is an account contract and a signer, not a wallet application yet: there is no browser extension and no hosted service. An easy-to-use wallet is planned (see Status). The result tables use the name HashAccount. The contract files, the Python package, and the nonce tag stay Lamport, after the one-time signature.
 
 Hash-based, believed to resist known quantum attacks. **Unaudited research code. Test keys only.** How this differs from wallets described as quantum-proof is in [docs/PRIOR_ART.md](docs/PRIOR_ART.md). EIP-8141 is not on mainnet. No public-devnet transaction has been sent.
 
@@ -12,6 +12,7 @@ This is active research. Frame transactions are not live yet, and the account is
 - **Waiting for frame transactions.** EIP-8141 is a draft scheduled for the Hegotá upgrade. ethereum.org (updated 16 October 2026) expects Hegotá in the second quarter of 2027, with no confirmed date. The EIP text and client code may still change. The signer follows ethrex `eip8141-tracer` at 9aa3645, which already disagrees with the current EIP text in several places ([docs/SPEC_FACTS.md](docs/SPEC_FACTS.md)). It will be updated when a public frames network settles on one encoding.
 - **Tested on a local chain.** Every frame-transaction result here comes from ethrex and the alt-mempool sidecar built from source and run locally, labelled LOCAL. No transaction has been sent to a public devnet or to mainnet.
 - **Still optimizing.** On 16 Nov 2026 the Winternitz chain was changed so that only its first step carries the address word, and later steps are a plain 32-byte keccak ([docs/DECISIONS.md](docs/DECISIONS.md)). The largest measured keyed VERIFY frame fell from 95,356 to 77,396 gas, and the runtime from 1,727 to 1,190 bytes. Open work: fit a message that needs all 990 chain steps under the 100,000 cap in keyed mode, cut the 20,000-gas keyed-nonce charge or move it out of the validation budget ([docs/RULE_FINDINGS.md](docs/RULE_FINDINGS.md)), and find a way to deploy inside the frame (the code alone needs about 1.92M state gas against a 500,000 cap).
+- **Planned: a complete wallet on an Ethereum L2.** An ERC-4337 version of the account that records spent keys in its own storage, so it works before frame transactions exist. A web wallet on top of it: create an account, back up the key file, see balances, and send ETH and tokens without ever choosing a one-time key, with a warning before the keys of a tree run out. Nothing of this is built yet.
 - **Not reviewed.** There has been no audit and no independent cryptographic review. The trade-off of the 16 Nov chain change is written in [docs/SECURITY.md](docs/SECURITY.md).
 
 ## Try it
